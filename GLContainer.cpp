@@ -8,22 +8,22 @@
 
 GLContainer::GLContainer(QWidget *parent) :
     QAbstractScrollArea (parent),
-    ctrlPressed(false),
-    mousePressed(false),
-    sWidth(20),
-    sHeight(20),
-    prevNum(-1),
-    scrollMoved(false)
+    _ctrlPressed(false),
+    _mousePressed(false),
+    _sWidth(20),
+    _sHeight(20),
+    _prevNum(-1),
+    _scrollMoved(false)
 {
     QGLFormat format;
     format.setVersion(4, 0);
     format.setProfile(QGLFormat::CompatibilityProfile);
     format.setSampleBuffers(true);
 
-    glWidget = new GLWidget(format);
-    glWidget->setObjectName(QStringLiteral("myGLImageDisplay"));
+    _glWidget = new GLWidget(format);
+    _glWidget->setObjectName(QStringLiteral("myGLImageDisplay"));
 
-    setViewport(glWidget);
+    setViewport(_glWidget);
 
     horizontalScrollBar()->setSingleStep(10);
     horizontalScrollBar()->setPageStep(100);
@@ -36,18 +36,18 @@ GLContainer::GLContainer(QWidget *parent) :
 
     setMouseTracking(true);
 
-    doubleClickTimer = new QTimer(this); connect(doubleClickTimer, SIGNAL(timeout()), this, SLOT(DummyFunction()));
-    doubleClickTimeout = 100;
+    _doubleClickTimer = new QTimer(this); connect(_doubleClickTimer, SIGNAL(timeout()), this, SLOT(DummyFunction()));
+    _doubleClickTimeout = 100;
 
     //UpdateViewport(true);
-    this->justInitialized = true;
+    this->_justInitialized = true;
 }
 
 void GLContainer::UpdateViewport(bool putInMiddle)
 {
-    QSize barSize = QSize(this->width() - sWidth, this->height() - sHeight);
+    QSize barSize = QSize(this->width() - _sWidth, this->height() - _sHeight);
 
-    float zoomFactor = glWidget->GetZoomFactor();
+    float zoomFactor = _glWidget->GetZoomFactor();
     //QSize canvasSize  = glWidget->GetCanvasSize();
 
     //QSize borderLimit( 10, 10);
@@ -62,15 +62,15 @@ void GLContainer::UpdateViewport(bool putInMiddle)
     float ySPos;
     if(!putInMiddle)
     {
-        float xNormPos = mousePos.x() + xPrevF;
-        float yNormPos = mousePos.y() + yPrevF;
-        xNormPos /= prevZoomFactor;
-        yNormPos /= prevZoomFactor;
+        float xNormPos = _mousePos.x() + _xPrevF;
+        float yNormPos = _mousePos.y() + _yPrevF;
+        xNormPos /= _prevZoomFactor;
+        yNormPos /= _prevZoomFactor;
 
         float xRev = xNormPos * zoomFactor;
         float yRev = yNormPos * zoomFactor;
-        xSPos = xRev - mousePos.x();
-        ySPos = yRev - mousePos.y();
+        xSPos = xRev - _mousePos.x();
+        ySPos = yRev - _mousePos.y();
     }
 
     int leftRange = 0;
@@ -118,8 +118,8 @@ void GLContainer::UpdateViewport(bool putInMiddle)
         downRange = img_height;
     }
 
-    xPrevF = hPos;
-    yPrevF = vPos;
+    _xPrevF = hPos;
+    _yPrevF = vPos;
 
     horizontalScrollBar()->setRange(leftRange, rightRange);
     verticalScrollBar()->setRange(upRange, downRange);
@@ -131,23 +131,23 @@ void GLContainer::UpdateViewport(bool putInMiddle)
 void GLContainer::paintEvent(QPaintEvent *event)
 {
 
-    if(this->justInitialized)
+    if(this->_justInitialized)
     {
         UpdateViewport(true);
-        this->justInitialized = false;
+        this->_justInitialized = false;
     }
 
 
 
     // please fix me
-    if(this->width() != glWidget->width() || this->height() != glWidget->height())
+    if(this->width() != _glWidget->width() || this->height() != _glWidget->height())
     {
-        glWidget->setFixedWidth(this->width());
-        glWidget->setFixedHeight(this->height());
+        _glWidget->setFixedWidth(this->width());
+        _glWidget->setFixedHeight(this->height());
     }
 
     QAbstractScrollArea::paintEvent(event);
-    glWidget->updateGL();
+    _glWidget->updateGL();
 }
 
 bool GLContainer::event(QEvent * event)
@@ -177,7 +177,7 @@ void GLContainer::SetScrolls()
     horizontalScrollBar()->setVisible(true);
     verticalScrollBar()->setVisible(true);
 
-    prevZoomFactor = 1.0f;
+    _prevZoomFactor = 1.0f;
 
     // nasty code here...
     bool shouldZoom = true;
@@ -187,10 +187,10 @@ void GLContainer::SetScrolls()
         //int _h = this->height();
         //QSize imgSize = glWidget->GetCanvasSize();
         QSize imgSize(100, 100);
-        double zoomFactor = glWidget->GetZoomFactor();
+        double zoomFactor = _glWidget->GetZoomFactor();
 
         if((double)this->width()  < (double)imgSize.width() * zoomFactor ||  (double)this->height() < (double)imgSize.height() *zoomFactor)
-        { glWidget->ZoomOut(); }
+        { _glWidget->ZoomOut(); }
         else
         { shouldZoom = false; }
     } while (shouldZoom);
@@ -199,84 +199,84 @@ void GLContainer::SetScrolls()
 
 void GLContainer::VScrollChanged(int val)
 {
-    yPrevF = val;
-    glWidget->VerticalScroll(val);
-    this->scrollMoved = true;
+    _yPrevF = val;
+    _glWidget->VerticalScroll(val);
+    this->_scrollMoved = true;
 }
 void GLContainer::HScrollChanged(int val)
 {
-    xPrevF = val;
-    glWidget->HorizontalScroll(val);
-    this->scrollMoved = true;
+    _xPrevF = val;
+    _glWidget->HorizontalScroll(val);
+    this->_scrollMoved = true;
 }
 
 void GLContainer::DummyFunction()
 {
-    doubleClickTimer->stop();
+    _doubleClickTimer->stop();
 }
 
 void GLContainer::mousePressEvent(QMouseEvent *event)
 {
-    if(doubleClickTimer->isActive())
+    if(_doubleClickTimer->isActive())
     {
-        doubleClickTimer->stop();
-        glWidget->mouseDoubleClick(event->x(), event->y());
+        _doubleClickTimer->stop();
+        _glWidget->mouseDoubleClick(event->x(), event->y());
     }
     else
     {
     }
 
-    this->mousePressed = true;
+    this->_mousePressed = true;
 
-    if(!this->ctrlPressed)
+    if(!this->_ctrlPressed)
     {
-        glWidget->mousePressEvent(event->x(), event->y());
+        _glWidget->mousePressEvent(event->x(), event->y());
     }
 
-    if(this->ctrlPressed)
+    if(this->_ctrlPressed)
     {
-        this->prevMousePos = mousePos;
-        this->prevScrollPos.setX(horizontalScrollBar()->sliderPosition());
-        this->prevScrollPos.setY(verticalScrollBar()->sliderPosition());
+        this->_prevMousePos = _mousePos;
+        this->_prevScrollPos.setX(horizontalScrollBar()->sliderPosition());
+        this->_prevScrollPos.setY(verticalScrollBar()->sliderPosition());
     }
 }
 
 void GLContainer::mouseMoveEvent(QMouseEvent *event)
 {
-    mousePos.setX(event->x());
-    mousePos.setY(event->y());
+    _mousePos.setX(event->x());
+    _mousePos.setY(event->y());
 
-    if(this->ctrlPressed && this->mousePressed)
+    if(this->_ctrlPressed && this->_mousePressed)
     {
-        int xDelta = mousePos.x() - prevMousePos.x();
-        int yDelta = mousePos.y() - prevMousePos.y();
-        horizontalScrollBar()->setSliderPosition(prevScrollPos.x() - xDelta);
-        verticalScrollBar()->setSliderPosition(prevScrollPos.y() - yDelta);
+        int xDelta = _mousePos.x() - _prevMousePos.x();
+        int yDelta = _mousePos.y() - _prevMousePos.y();
+        horizontalScrollBar()->setSliderPosition(_prevScrollPos.x() - xDelta);
+        verticalScrollBar()->setSliderPosition(_prevScrollPos.y() - yDelta);
     }
 
-    glWidget->mouseMoveEvent(event->x(), event->y());
+    _glWidget->mouseMoveEvent(event->x(), event->y());
 }
 
 void GLContainer::mouseReleaseEvent(QMouseEvent *event)
 {
-    this->mousePressed = false;
-    if(!this->ctrlPressed)
+    this->_mousePressed = false;
+    if(!this->_ctrlPressed)
     {
-        glWidget->mouseReleaseEvent(event->x(), event->y());
+        _glWidget->mouseReleaseEvent(event->x(), event->y());
     }
 
-    doubleClickTimer->start(doubleClickTimeout);
+    _doubleClickTimer->start(_doubleClickTimeout);
 }
 
 void GLContainer::wheelEvent(QWheelEvent* event)
 {
     bool scrollDir = (event->delta() > 0) ? true : false;	// negative means scroll down, positive is otherwise
-    prevZoomFactor = glWidget->GetZoomFactor();		// for anchor zoom
+    _prevZoomFactor = _glWidget->GetZoomFactor();		// for anchor zoom
 
-    if(scrollDir) glWidget->ZoomOut();
-    else glWidget->ZoomIn();
+    if(scrollDir) _glWidget->ZoomOut();
+    else _glWidget->ZoomIn();
 
-    float zoomFactor = glWidget->GetZoomFactor() * 100.0;
+    float zoomFactor = _glWidget->GetZoomFactor() * 100.0;
 
     // update scrollbars
     UpdateViewport();
@@ -286,18 +286,18 @@ void GLContainer::keyPressEvent(QKeyEvent *event)
 {
     //if(event->key() == Qt::Key_C) { this->glWidget->DoClustering(); }
 
-    glWidget->updateGL();
+    _glWidget->updateGL();
 }
 
 void GLContainer::keyReleaseEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Control) { this->ctrlPressed = false; }
+    if(event->key() == Qt::Key_Control) { this->_ctrlPressed = false; }
 }
 
 // get renderer
 GLWidget* GLContainer::GetGLWidget()
 {
-    return this->glWidget;
+    return this->_glWidget;
 }
 
 /*

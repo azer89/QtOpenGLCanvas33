@@ -2,7 +2,6 @@
 
 #include "stdafx.h"
 #include "GLWidget.h"
-//#include "KCentersClustering.h"
 
 
 GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
@@ -41,29 +40,17 @@ void GLWidget::initializeGL()
     if ( !mProgram.link() )
         { std::cerr << "Cannot link shaders." << std::endl; return; }
 
-
-    float circleData[120];
-    double radius = width() < height() ? (float)width() * 0.25 : (float)height() * 0.25;
-    std::cout << radius << "\n";
-    for(size_t i=0; i<40; ++i)
-    {
-        circleData[i*3] = radius * cos(i*2*M_PI/40);
-        circleData[i*3 + 1] = radius * sin(i*2*M_PI/40);
-        circleData[i*3 + 2] = 0.0;
-    }
-
     mVertexArrayObject.create();
     mVertexArrayObject.bind();
 
     mVertexBufferObject.create();
     mVertexBufferObject.setUsagePattern(QOpenGLBuffer::StaticDraw);
 
-    if (!mVertexBufferObject.bind()) {
+    if (!mVertexBufferObject.bind())
+    {
         std::cerr << "could not bind vertex buffer to the context." << std::endl;
         return;
     }
-
-    //mVertexBufferObject.allocate(circleData, 40 * 3 * sizeof(float));
 
     mProgram.bind();
 
@@ -84,13 +71,6 @@ bool GLWidget::event( QEvent * event )
 // This is an override function from Qt but I can't find its purpose
 void GLWidget::resizeGL(int width, int height)
 {
-    //if (height == 0) { height = 1; }
-    //mPerspMatrix.setToIdentity();
-    //mPerspMatrix.perspective(60.0, (float) width / (float) height, 0.001, 1000);
-    //glViewport(0, 0, width, height);
-
-
-    //glViewport(0, 0, this->width(),  this->height());
 }
 
 void GLWidget::SetColor(const QColor& col)
@@ -119,10 +99,6 @@ void GLWidget::paintGL()
     int current_width = width();
     int current_height = height();
 
-    // Set up for orthogonal drawing to draw a circle on screen.
-    // You'll want to make the rest of the function conditional on
-    // whether or not we want to draw the circle this time around.
-
     SetColor(QColor(0.0, 0.0, 0.0));
 
     // Set orthographic Matrix
@@ -145,24 +121,26 @@ void GLWidget::paintGL()
     // Translate the view to the middle
     QMatrix4x4 transformMatrix;
     transformMatrix.setToIdentity();
-    //transformMatrix.translate(-_scrollOffset.x(), -_scrollOffset.y(), 0.0);
-    //transformMatrix.translate(width()/2.0 - 200, height()/2.0 - 200, 0.0);
     transformMatrix.scale(_zoomFactor);
 
     // Bind buffer object
-    //mVertexBufferObject.bind();
     mProgram.setUniformValue(mMvpMatrixLocation, orthoMatrix * transformMatrix);
 
-    // Draw buffer
-    //glDrawArrays(GL_LINE_LOOP, 0, 40);
+    if(points.size() > 0)
+    {
+        for(size_t a = 0; a < points.size(); a++)
+        {
+            for(size_t b = 0; b < points[a].size() - 1; b++)
+                { DrawLine(points[a][b], points[a][b+1]); }
+        }
 
-    DrawLine(MyPoint(0, 0), MyPoint(100, 0));
-    DrawLine(MyPoint(0, 0), MyPoint(0, 100));
-    DrawLine(MyPoint(100, 0), MyPoint(100, 100));
-    DrawLine(MyPoint(0, 100), MyPoint(100, 100));
+    }
 
-    DrawLine(MyPoint(50, -100), MyPoint(50, 200));
-    DrawLine(MyPoint(-100, 50), MyPoint(200, 50));
+    if(tempPoints.size() > 2)
+    {
+        for(size_t a = 0; a < tempPoints.size() -1 ; a++)
+            { DrawLine(tempPoints[a], tempPoints[a+1]); }
+    }
 }
 
 

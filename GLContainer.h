@@ -47,32 +47,32 @@ protected:
     void keyReleaseEvent(QKeyEvent *event);
 
 private:
-    GLWidget* glWidget;
-    QPoint prevScrollPos;
-    QPoint prevMousePos;
-    bool ctrlPressed;
-    bool mousePressed;
+    GLWidget*   _glWidget;
+    QPoint      _prevScrollPos;
+    QPoint      _prevMousePos;
+    bool        _ctrlPressed;
+    bool        _mousePressed;
 
-    int sWidth;
-    int sHeight;
-    QPoint mousePos;
+    int     _sWidth;
+    int     _sHeight;
+    QPoint  _mousePos;
 
     // for updating opengl when scrolling display
-    float xPrevF;
-    float yPrevF;
-    float prevZoomFactor;
+    float _xPrevF;
+    float _yPrevF;
+    float _prevZoomFactor;
 
     // previous number of strokes (not used)
-    int prevNum;
+    int _prevNum;
 
     // timer for double click
-    QTimer* doubleClickTimer;
+    QTimer* _doubleClickTimer;
 
     // timing for double click
-    int     doubleClickTimeout;
+    int     _doubleClickTimeout;
 
-    bool scrollMoved;
-    bool justInitialized;
+    bool _scrollMoved;
+    bool _justInitialized;
 
 private:
     // update opengl viewport
