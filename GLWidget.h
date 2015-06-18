@@ -1,9 +1,15 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include "stdafx.h"
+#include <QMatrix4x4>
+#include <QtOpenGL/QGLWidget>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
+#include <QOpenGLShaderProgram>
+#include <QOpenGLTexture>
 
-#include "MyPoint.h"
+#include "AVector.h"
+#include "ALine.h"
 
 class GLWidget : public QGLWidget
 {
@@ -14,17 +20,47 @@ private:
     float   _zoomFactor;
     QPoint  _scrollOffset;
 
-    std::vector<MyPoint> tempPoints;
-    std::vector< std::vector<MyPoint> > points;
+    // image size
+    int _img_width;
+    int _img_height;
 
-    /* OpenGL 3.3 */
-    QOpenGLBuffer mVertexBufferObject;
-    QOpenGLVertexArrayObject mVertexArrayObject;
-    int mMvpMatrixLocation;
-    int mColorLocation;
-    QMatrix4x4 mPerspMatrix;
-    QMatrix4x4 mTransformMatrix;
-    QGLShaderProgram mProgram;
+    // shader
+    QOpenGLShaderProgram* _shaderProgram;
+
+    // points
+    std::vector<AVector>        _points;
+    QOpenGLBuffer               _pointsVbo;
+    QOpenGLVertexArrayObject    _pointsVao;
+
+    // lines
+    QOpenGLBuffer               _linesVbo;
+    QOpenGLVertexArrayObject    _linesVao;
+
+    // for rendering
+    int         _mvpMatrixLocation;
+    int         _colorLocation;
+    QMatrix4x4  _perspMatrix;
+    QMatrix4x4  _transformMatrix;
+
+private:
+   void InitCurve();
+   void PaintCurve();
+   void CreateCurveVAO();
+
+   void SaveToSvg();
+
+   void PreparePointsVAO(std::vector<AVector> points, QOpenGLBuffer* ptsVbo, QOpenGLVertexArrayObject* ptsVao, QVector3D vecCol);
+    void PrepareLinesVAO(std::vector<ALine> lines, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol);
+
+protected:
+    // qt event
+    bool event( QEvent * event );
+    // init opengl
+    void initializeGL();
+    // draw
+    void paintGL();
+
+    void resizeGL(int width, int height);
 
 public:
 
@@ -33,8 +69,7 @@ public:
     // destructor
     ~GLWidget();
 
-    // save current buffer to image
-    void SaveImage(QString filename);
+    QSize GetCanvasSize() { return QSize(_img_width, _img_height); }
 
     // zoom in handle
     void ZoomIn();
@@ -60,30 +95,6 @@ public:
     void mouseReleaseEvent(int x, int y);
     // mouse double click
     void mouseDoubleClick(int x, int y);
-
-    // reset everything
-    void Reset();
-
-protected:
-    // qt event
-    bool event( QEvent * event );
-    // init opengl
-    void initializeGL();
-    // draw
-    void paintGL();
-
-    void resizeGL(int width, int height);
-
-private:
-    void SetColor(const QColor& col);
-    void DrawLine(MyPoint p1, MyPoint p2);
-
-    QMatrix4x4 GetCameraMatrix();
-    void TranslateWorld(float x, float y, float z);
-    void RotateWorld(float x, float y, float z);
-    void ScaleWorld(float x, float y, float z);
-
 };
-
 
 #endif // GLWIDGET_H

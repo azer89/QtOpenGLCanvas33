@@ -1,9 +1,9 @@
-
-
 #ifndef GLCONTAINER_H
 #define GLCONTAINER_H
 
-#include "stdafx.h"
+//#include "stdafx.h"
+#include <QAbstractScrollArea>
+
 #include "GLWidget.h"
 
 class GLContainer : public QAbstractScrollArea
@@ -23,8 +23,6 @@ public:
 
     // set up scrolls (vertical and horizontal)
     void SetScrolls();
-
-    //void DoClustering(int k);
 
 
 protected:
