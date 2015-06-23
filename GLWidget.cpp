@@ -51,6 +51,8 @@ void GLWidget::initializeGL()
     _shaderProgram->bind();
     _mvpMatrixLocation = _shaderProgram->uniformLocation("mvpMatrix");
     _colorLocation = _shaderProgram->attributeLocation("vertexColor");
+    _vertexLocation = _shaderProgram->attributeLocation("vert");
+    _use_color_location = _shaderProgram->uniformLocation("use_color");
 
     InitCurve();
     CreateCurveVAO();
@@ -212,9 +214,8 @@ void GLWidget::PreparePointsVAO(std::vector<AVector> points, QOpenGLBuffer* ptsV
 
     quintptr offset = 0;
 
-    int vertexLocation = _shaderProgram->attributeLocation("vert");
-    _shaderProgram->enableAttributeArray(vertexLocation);
-    _shaderProgram->setAttributeBuffer(vertexLocation, GL_FLOAT, 0, 3, sizeof(VertexData));
+    _shaderProgram->enableAttributeArray(_vertexLocation);
+    _shaderProgram->setAttributeBuffer(_vertexLocation, GL_FLOAT, 0, 3, sizeof(VertexData));
 
     offset += sizeof(QVector3D);
     offset += sizeof(QVector2D);
@@ -248,9 +249,8 @@ void GLWidget::PrepareLinesVAO(std::vector<ALine> lines, QOpenGLBuffer* linesVbo
 
     quintptr offset = 0;
 
-    int vertexLocation = _shaderProgram->attributeLocation("vert");
-    _shaderProgram->enableAttributeArray(vertexLocation);
-    _shaderProgram->setAttributeBuffer(vertexLocation, GL_FLOAT, 0, 3, sizeof(VertexData));
+    _shaderProgram->enableAttributeArray(_vertexLocation);
+    _shaderProgram->setAttributeBuffer(_vertexLocation, GL_FLOAT, 0, 3, sizeof(VertexData));
 
     offset += sizeof(QVector3D);
     offset += sizeof(QVector2D);
@@ -269,8 +269,7 @@ void GLWidget::PaintCurve()
 {
     if(_points.size() == 0) { return; }
 
-    int use_color_location = _shaderProgram->uniformLocation("use_color");
-    _shaderProgram->setUniformValue(use_color_location, (GLfloat)1.0);
+    _shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
 
     glPointSize(5.0f);
     _pointsVao.bind();

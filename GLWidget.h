@@ -39,6 +39,8 @@ private:
     // for rendering
     int         _mvpMatrixLocation;
     int         _colorLocation;
+    int         _vertexLocation;
+    int         _use_color_location;
     QMatrix4x4  _perspMatrix;
     QMatrix4x4  _transformMatrix;
 
