@@ -182,7 +182,7 @@ void GLWidget::CreateCurveVAO()
     // LINES VAO
     vecCol = QVector3D(0.0, 0.5, 1.0);
     std::vector<ALine> lines;
-    for(size_t a = 0; a < _points.size(); a++)
+    for(uint a = 0; a < _points.size(); a++)
     {
         if(a < _points.size() - 1) { lines.push_back(ALine(_points[a], _points[a + 1])); }
         else { lines.push_back(ALine(_points[a], _points[0])); }
@@ -201,7 +201,7 @@ void GLWidget::PreparePointsVAO(std::vector<AVector> points, QOpenGLBuffer* ptsV
     ptsVao->bind();
 
     QVector<VertexData> data;
-    for(size_t a = 0; a < points.size(); a++)
+    for(uint a = 0; a < points.size(); a++)
     {
         data.append(VertexData(QVector3D(points[a].x, points[a].y,  0), QVector2D(), vecCol));
     }
@@ -236,7 +236,7 @@ void GLWidget::PrepareLinesVAO(std::vector<ALine> lines, QOpenGLBuffer* linesVbo
     linesVao->bind();
 
     QVector<VertexData> data;
-    for(size_t a = 0; a < lines.size(); a++)
+    for(uint a = 0; a < lines.size(); a++)
     {
         data.append(VertexData(QVector3D(lines[a].XA, lines[a].YA,  0), QVector2D(), vecCol));
         data.append(VertexData(QVector3D(lines[a].XB, lines[a].YB,  0), QVector2D(), vecCol));
