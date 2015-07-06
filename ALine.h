@@ -13,8 +13,8 @@ public:
     float XB;	float YB;	// end
 
     // custom
-    int index1;
-    int index2;
+    //int index1;
+    //int index2;
 
     // Constructor #1
     ALine()
@@ -22,8 +22,8 @@ public:
         this->XA = -1;	this->YA = -1;
         this->XB = -1;	this->YB = -1;
 
-        this->index1 = -1;
-        this->index2 = -1;
+        //this->index1 = -1;
+        //this->index2 = -1;
     }
 
     // Constructor #2
@@ -32,8 +32,8 @@ public:
         this->XA = XA;	this->YA = YA;
         this->XB = XB;	this->YB = YB;
 
-        this->index1 = -1;
-        this->index2 = -1;
+        //this->index1 = -1;
+        //this->index2 = -1;
     }
 
     ALine(AVector v1, AVector v2)
@@ -41,8 +41,8 @@ public:
         this->XA = v1.x;	this->YA = v1.y;
         this->XB = v2.x;	this->YB = v2.y;
 
-        this->index1 = -1;
-        this->index2 = -1;
+        //this->index1 = -1;
+        //this->index2 = -1;
     }
 
 

@@ -14,14 +14,14 @@ public:
     float y;
 
     // custom
-    int index;
+    //int index;
 
     // Default constructor
     AVector()
     {
         this->x = -1;
         this->y = -1;
-        this->index = -1;
+        //this->index = -1;
     }
 
     // Constructor
@@ -29,7 +29,7 @@ public:
     {
         this->x = x;
         this->y = y;
-        this->index = -1;
+        //this->index = -1;
     }
 
     // Scale a point
