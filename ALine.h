@@ -37,14 +37,14 @@ public:
     }
 
     // Constructor #3
-    ALine(ALine otherLine)
+    /*ALine(ALine otherLine)
     {
         this->XA = otherLine.XA;    this->YA = otherLine.YA;
         this->XB = otherLine.XB;    this->YB = otherLine.YB;
 
         //this->index1 = -1;
         //this->index2 = -1;
-    }
+    }*/
 
     ALine(AVector v1, AVector v2)
     {
