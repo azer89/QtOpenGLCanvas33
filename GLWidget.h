@@ -24,6 +24,8 @@ private:
     int _img_width;
     int _img_height;
 
+    float _slice;
+
     // shader
     QOpenGLShaderProgram* _shaderProgram;
 
@@ -45,7 +47,7 @@ private:
     QMatrix4x4  _transformMatrix;
 
 private:
-   void InitCurve();
+   void CreateCurve();
    void PaintCurve();
    void CreateCurveVAO();
 
@@ -72,6 +74,9 @@ public:
     ~GLWidget();
 
     QSize GetCanvasSize() { return QSize(_img_width, _img_height); }
+
+    void AddSlice();
+    void RemoveSlice();
 
     // zoom in handle
     void ZoomIn();

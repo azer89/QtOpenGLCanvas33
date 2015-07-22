@@ -292,10 +292,13 @@ void GLContainer::wheelEvent(QWheelEvent* event)
     bool scrollDir = (event->delta() > 0) ? true : false;	// negative means scroll down, positive is otherwise
     _prevZoomFactor = _glWidget->GetZoomFactor();		// for anchor zoom
 
-    if(scrollDir) _glWidget->ZoomOut();
-    else _glWidget->ZoomIn();
+    //if(this->_ctrlPressed)
+    //{
+        if(scrollDir) _glWidget->ZoomOut();
+        else _glWidget->ZoomIn();
+    //}
 
-    float zoomFactor = _glWidget->GetZoomFactor() * 100.0;
+    //float zoomFactor = _glWidget->GetZoomFactor() * 100.0;
 
     // update scrollbars
     UpdateViewport();
@@ -309,6 +312,18 @@ void GLContainer::keyPressEvent(QKeyEvent *event)
         QApplication::setOverrideCursor(Qt::OpenHandCursor);
     }
     //if(event->key() == Qt::Key_C) { this->glWidget->DoClustering(); }
+
+
+    if(event->key() == Qt::Key_Right)
+    {
+        //std::cout << "right\n";
+        _glWidget->AddSlice();
+    }
+    else if(event->key() == Qt::Key_Left)
+    {
+        //std::cout << "left\n";
+        _glWidget->RemoveSlice();
+    }
 
     _glWidget->updateGL();
 }
