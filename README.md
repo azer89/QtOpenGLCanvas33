@@ -1,4 +1,4 @@
-A custom Qt canvas with OpenGL 3.3
+A custom Qt canvas with OpenGL 3.3. This program does not use glBegin() and gelEnd(), whereas it uses VertexBufferObjects and VertexArrayObjects to perform rendering. 
 
 features:
 - scrolls
