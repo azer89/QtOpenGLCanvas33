@@ -6,4 +6,4 @@ features:
 
 ![alt tag](https://raw.githubusercontent.com/azer89/QtOpenGLCanvas33/master/screenshot.png)
 
-The program is really simple since it only draws an n-gon. Press right button to add trhe number of the sides, and press left to do the opposite.
+The program is really simple since it only draws an n-gon. Press right button to add the number of the sides, and press left to do the opposite.
