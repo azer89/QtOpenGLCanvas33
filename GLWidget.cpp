@@ -15,10 +15,11 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     QGLWidget(format, parent),
     _isMouseDown(false),
     _zoomFactor(10.0),
-    _shaderProgram(0),
     _img_width(50),
     _img_height(50),
-    _slice(8)
+    _slice(8),
+    _shaderProgram(0)
+
 {
 }
 
