@@ -57,7 +57,7 @@ void GLWidget::initializeGL()
     _use_color_location = _shaderProgram->uniformLocation("use_color");
 
     CreateCurve();
-    CreateCurveVAO();
+    BuildCurveVertexData();
 }
 
 bool GLWidget::event( QEvent * event )
@@ -166,7 +166,7 @@ void GLWidget::AddSlice()
 {
     this->_slice++;
     CreateCurve();
-    CreateCurveVAO();
+    BuildCurveVertexData();
 
 }
 
@@ -178,7 +178,7 @@ void GLWidget::RemoveSlice()
         this->_slice = 3;
     }
     CreateCurve();
-    CreateCurveVAO();
+    BuildCurveVertexData();
 }
 
 void GLWidget::CreateCurve()
@@ -196,13 +196,13 @@ void GLWidget::CreateCurve()
     }
 }
 
-void GLWidget::CreateCurveVAO()
+void GLWidget::BuildCurveVertexData()
 {
-    // POINTS VAO
+    // POINTS
     QVector3D vecCol = QVector3D(1.0, 0.0, 0.0);
-    PreparePointsVAO(_points, &_pointsVbo, &_pointsVao, vecCol);
+    BuildPointsVertexData(_points, &_pointsVbo, &_pointsVao, vecCol);
 
-    // LINES VAO
+    // LINES
     vecCol = QVector3D(0.0, 0.5, 1.0);
     std::vector<ALine> lines;
     for(uint a = 0; a < _points.size(); a++)
@@ -210,10 +210,10 @@ void GLWidget::CreateCurveVAO()
         if(a < _points.size() - 1) { lines.push_back(ALine(_points[a], _points[a + 1])); }
         else { lines.push_back(ALine(_points[a], _points[0])); }
     }
-    PrepareLinesVAO(lines, &_linesVbo, &_linesVao, vecCol);
+    BuildLinesVertexData(lines, &_linesVbo, &_linesVao, vecCol);
 }
 
-void GLWidget::PreparePointsVAO(std::vector<AVector> points, QOpenGLBuffer* ptsVbo, QOpenGLVertexArrayObject* ptsVao, QVector3D vecCol)
+void GLWidget::BuildPointsVertexData(std::vector<AVector> points, QOpenGLBuffer* ptsVbo, QOpenGLVertexArrayObject* ptsVao, QVector3D vecCol)
 {
     // the vao is created only once
     bool isInit = false;
@@ -251,7 +251,7 @@ void GLWidget::PreparePointsVAO(std::vector<AVector> points, QOpenGLBuffer* ptsV
     }
 }
 
-void GLWidget::PrepareLinesVAO(std::vector<ALine> lines, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol)
+void GLWidget::BuildLinesVertexData(std::vector<ALine> lines, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol)
 {
     // the vao is created only once
     bool isInit = false;
@@ -290,6 +290,7 @@ void GLWidget::PrepareLinesVAO(std::vector<ALine> lines, QOpenGLBuffer* linesVbo
         linesVao->release();
     }
 }
+
 
 void GLWidget::SaveToSvg()
 {
