@@ -230,20 +230,7 @@ void GLWidget::BuildPointsVertexData(std::vector<AVector> points, QOpenGLBuffer*
         data.append(VertexData(QVector3D(points[a].x, points[a].y,  0), QVector2D(), vecCol));
     }
 
-    ptsVbo->create();
-    ptsVbo->bind();
-    ptsVbo->allocate(data.data(), data.size() * sizeof(VertexData));
-
-    quintptr offset = 0;
-
-    _shaderProgram->enableAttributeArray(_vertexLocation);
-    _shaderProgram->setAttributeBuffer(_vertexLocation, GL_FLOAT, 0, 3, sizeof(VertexData));
-
-    offset += sizeof(QVector3D);
-    offset += sizeof(QVector2D);
-
-    _shaderProgram->enableAttributeArray(_colorLocation);
-    _shaderProgram->setAttributeBuffer(_colorLocation, GL_FLOAT, offset, 3, sizeof(VertexData));
+    BuildVboWithColor(data, ptsVbo);
 
     if(isInit)
     {
@@ -270,9 +257,22 @@ void GLWidget::BuildLinesVertexData(std::vector<ALine> lines, QOpenGLBuffer* lin
         data.append(VertexData(QVector3D(lines[a].XB, lines[a].YB,  0), QVector2D(), vecCol));
     }
 
-    linesVbo->create();
-    linesVbo->bind();
-    linesVbo->allocate(data.data(), data.size() * sizeof(VertexData));
+    BuildVboWithColor(data, linesVbo);
+
+    if(isInit)
+    {
+        linesVao->release();
+    }
+}
+
+void GLWidget::BuildVboWithColor(QVector<VertexData> data, QOpenGLBuffer* vbo)
+{
+    if(!vbo->isCreated())
+    {
+        vbo->create();
+    }
+    vbo->bind();
+    vbo->allocate(data.data(), data.size() * sizeof(VertexData));
 
     quintptr offset = 0;
 
@@ -284,11 +284,6 @@ void GLWidget::BuildLinesVertexData(std::vector<ALine> lines, QOpenGLBuffer* lin
 
     _shaderProgram->enableAttributeArray(_colorLocation);
     _shaderProgram->setAttributeBuffer(_colorLocation, GL_FLOAT, offset, 3, sizeof(VertexData));
-
-    if(isInit)
-    {
-        linesVao->release();
-    }
 }
 
 

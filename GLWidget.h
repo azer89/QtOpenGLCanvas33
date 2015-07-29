@@ -10,7 +10,7 @@
 
 #include "AVector.h"
 #include "ALine.h"
-
+#include "VertexData.h"
 
 class GLWidget : public QGLWidget
 {
@@ -56,6 +56,7 @@ private:
     void BuildCurveVertexData();
     void BuildPointsVertexData(std::vector<AVector> points, QOpenGLBuffer* ptsVbo, QOpenGLVertexArrayObject* ptsVao, QVector3D vecCol);
     void BuildLinesVertexData(std::vector<ALine> lines, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol);
+    void BuildVboWithColor(QVector<VertexData> data, QOpenGLBuffer* vbo);
 
 protected:
     // qt event
