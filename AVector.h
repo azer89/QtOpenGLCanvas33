@@ -102,11 +102,11 @@ public:
     // operator overloading
     AVector operator- (const AVector& other) { return AVector(x - other.x, y - other.y); }
     bool operator== (const AVector& other)
-    { return (abs(this->x - other.x) < std::numeric_limits<float>::epsilon() && abs(this->y - other.y) < std::numeric_limits<float>::epsilon()); }
+    { return (std::abs(this->x - other.x) < std::numeric_limits<float>::epsilon() && std::abs(this->y - other.y) < std::numeric_limits<float>::epsilon()); }
 
     // operator overloading
     bool operator!= (const AVector& other)
-    { return (abs(this->x - other.x) >= std::numeric_limits<float>::epsilon() || abs(this->y - other.y) >= std::numeric_limits<float>::epsilon()); }
+    { return (std::abs(this->x - other.x) >= std::numeric_limits<float>::epsilon() || std::abs(this->y - other.y) >= std::numeric_limits<float>::epsilon()); }
 
     // operator overloading
     AVector operator+= (const AVector& other)

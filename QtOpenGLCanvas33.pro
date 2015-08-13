@@ -15,14 +15,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     GLContainer.cpp \
-    GLWidget.cpp
+    GLWidget.cpp \
+    VertexDataHelper.cpp
 
 HEADERS  += mainwindow.h \
     ALine.h \
     AVector.h \
     GLContainer.h \
     GLWidget.h \
-    VertexData.h
+    VertexData.h \
+    VertexDataHelper.h
 
 FORMS    += mainwindow.ui
 

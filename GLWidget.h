@@ -11,12 +11,15 @@
 #include "AVector.h"
 #include "ALine.h"
 #include "VertexData.h"
+#include "VertexDataHelper.h"
 
 class GLWidget : public QGLWidget
 {
     Q_OBJECT
 
 private:
+    VertexDataHelper* _vDataHelper;
+
     bool    _isMouseDown;
     float   _zoomFactor;
     QPoint  _scrollOffset;
@@ -48,15 +51,11 @@ private:
     QMatrix4x4  _transformMatrix;
 
 private:
-    void CreateCurve();
-    void PaintCurve();
+    void CreateCurve(); // remove this
+    void PaintCurve(); // remove this
+    void BuildCurveVertexData(); // remove this
 
     void SaveToSvg();
-
-    void BuildCurveVertexData();
-    void BuildPointsVertexData(std::vector<AVector> points, QOpenGLBuffer* ptsVbo, QOpenGLVertexArrayObject* ptsVao, QVector3D vecCol);
-    void BuildLinesVertexData(std::vector<ALine> lines, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol);
-    void BuildVboWithColor(QVector<VertexData> data, QOpenGLBuffer* vbo);
 
 protected:
     // qt event
