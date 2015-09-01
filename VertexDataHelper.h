@@ -27,9 +27,11 @@ public:
 
 private:
     QOpenGLShaderProgram* _shaderProgram;
-    int         _colorLocation;
-    int         _vertexLocation;
-    int         _use_color_location;
+
+    int _colorLocation;
+    int _vertexLocation;
+    int _use_color_location;
+    int _texCoordLocation;
 };
 
 #endif // VERTEXDATAHELPER_H

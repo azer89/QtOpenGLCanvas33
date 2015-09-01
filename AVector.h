@@ -3,7 +3,13 @@
 
 #include <limits>
 #include <cmath>
+#include <iostream> // for abs (?)
 
+/**
+ * A struct to represent:
+ *     1. A Point
+ *     2. A Vector (direction only)
+ */
 struct AVector
 {
 public:
@@ -13,15 +19,11 @@ public:
     // y
     float y;
 
-    // custom
-    //int index;
-
     // Default constructor
     AVector()
     {
         this->x = -1;
         this->y = -1;
-        //this->index = -1;
     }
 
     // Constructor
@@ -29,16 +31,7 @@ public:
     {
         this->x = x;
         this->y = y;
-        //this->index = -1;
     }
-
-    // Constructor
-    /*AVector(AVector otherVector)
-    {
-        this->x = otherVector.x;
-        this->y = otherVector.y;
-        //this->index = -1;
-    }*/
 
     // Scale a point
     AVector Resize(float val)
@@ -49,8 +42,14 @@ public:
         return newP;
     }
 
+    void SetInvalid()
+    {
+        this->x = -1;
+        this->y = -1;
+    }
+
     // if a point is (-1, -1)
-    bool Invalid()
+    bool IsInvalid()
     {
         if(((int)x) == -1 && ((int)y) == -1)
             { return true; }
@@ -102,11 +101,11 @@ public:
     // operator overloading
     AVector operator- (const AVector& other) { return AVector(x - other.x, y - other.y); }
     bool operator== (const AVector& other)
-    { return (std::abs(this->x - other.x) < std::numeric_limits<float>::epsilon() && std::abs(this->y - other.y) < std::numeric_limits<float>::epsilon()); }
+    { return (abs(this->x - other.x) < std::numeric_limits<float>::epsilon() && abs(this->y - other.y) < std::numeric_limits<float>::epsilon()); }
 
     // operator overloading
     bool operator!= (const AVector& other)
-    { return (std::abs(this->x - other.x) >= std::numeric_limits<float>::epsilon() || std::abs(this->y - other.y) >= std::numeric_limits<float>::epsilon()); }
+    { return (abs(this->x - other.x) > std::numeric_limits<float>::epsilon() || abs(this->y - other.y) > std::numeric_limits<float>::epsilon()); }
 
     // operator overloading
     AVector operator+= (const AVector& other)
@@ -158,7 +157,7 @@ public:
     // cross product
     AVector Cross(AVector otherVector)
     {
-        //U x V = Ux*Vy-Uy*Vx
+        //u x v = u.x * v.y - u.y * v.x
         return AVector(x * otherVector.y, y * otherVector.x);
     }
 

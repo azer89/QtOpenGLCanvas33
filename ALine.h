@@ -6,24 +6,22 @@
 #include <limits>
 #include <cmath>
 
+/**
+ * A struct to represent:
+ *     1. A Finite Lines
+ *     2. A Ray with a start point and a direction
+ */
 struct ALine
 {
 public:
     float XA;	float YA;	// start
     float XB;	float YB;	// end
 
-    // custom
-    //int index1;
-    //int index2;
-
     // Constructor #1
     ALine()
     {
         this->XA = -1;	this->YA = -1;
         this->XB = -1;	this->YB = -1;
-
-        //this->index1 = -1;
-        //this->index2 = -1;
     }
 
     // Constructor #2
@@ -31,28 +29,12 @@ public:
     {
         this->XA = XA;	this->YA = YA;
         this->XB = XB;	this->YB = YB;
-
-        //this->index1 = -1;
-        //this->index2 = -1;
     }
-
-    // Constructor #3
-    /*ALine(ALine otherLine)
-    {
-        this->XA = otherLine.XA;    this->YA = otherLine.YA;
-        this->XB = otherLine.XB;    this->YB = otherLine.YB;
-
-        //this->index1 = -1;
-        //this->index2 = -1;
-    }*/
 
     ALine(AVector v1, AVector v2)
     {
         this->XA = v1.x;	this->YA = v1.y;
         this->XB = v2.x;	this->YB = v2.y;
-
-        //this->index1 = -1;
-        //this->index2 = -1;
     }
 
 
@@ -74,6 +56,13 @@ public:
     {
         if(((int)XA) == -1 && ((int)YA) == -1 && ((int)XB) == -1 && ((int)YB) == -1) return true;
         return false;
+    }
+
+    AVector GetMiddlePoint()
+    {
+        AVector startPt(XA, YA);
+        AVector endPt(XB, YB);
+        return startPt + (endPt - startPt) * 0.5f;
     }
 
     // Start point

@@ -7,6 +7,7 @@ VertexDataHelper::VertexDataHelper(QOpenGLShaderProgram* shaderProgram)
     this->_colorLocation = _shaderProgram->attributeLocation("vertexColor");
     this->_vertexLocation = _shaderProgram->attributeLocation("vert");
     this->_use_color_location = _shaderProgram->uniformLocation("use_color");
+    this->_texCoordLocation = _shaderProgram->attributeLocation("uv");
 }
 
 VertexDataHelper::~VertexDataHelper()
