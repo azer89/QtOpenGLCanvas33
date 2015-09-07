@@ -1,6 +1,6 @@
-A custom Qt canvas with OpenGL 3.3. This program does not use glBegin() and gelEnd(), instead, it uses VertexBufferObjects and VertexArrayObjects to perform rendering. 
+A custom Qt canvas with Modern OpenGL which uses VBOs and VAOs to perform rendering. 
 
-The main purpose of this project is to create a 2D rendering canvas which uses modern OpenGL. The canvas is a combination of a derived QAbstractScrollArea class and a derived QGLWidget class so it has scrollbars and can be zoomed in/out. 
+The canvas is a combination of QAbstractScrollArea and QGLWidget, therefore the canvas can be scrolled and zoomed in/out. 
 
 ![alt tag](https://raw.githubusercontent.com/azer89/QtOpenGLCanvas33/master/screenshot.png)
 
