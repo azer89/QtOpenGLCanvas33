@@ -10,6 +10,7 @@
 #include <QSvgGenerator>
 
 #include "VertexData.h"
+#include "SystemParams.h"
 
 GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     QGLWidget(format, parent),
@@ -43,10 +44,10 @@ void GLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
 
     _shaderProgram = new QOpenGLShaderProgram();
-    if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, "../OrganicLabyrinth/shader.vert"))
+    if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, SystemParams::v_shader_file.c_str()))
         { std::cerr << "Cannot load vertex shader." << std::endl; return; }
 
-    if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, "../OrganicLabyrinth/shader.frag"))
+    if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, SystemParams::f_shader_file.c_str()))
         { std::cerr << "Cannot load fragment shader." << std::endl; return; }
 
     if ( !_shaderProgram->link() )

@@ -16,7 +16,8 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     GLContainer.cpp \
     GLWidget.cpp \
-    VertexDataHelper.cpp
+    VertexDataHelper.cpp \
+    SystemParams.cpp
 
 HEADERS  += mainwindow.h \
     ALine.h \
@@ -24,7 +25,8 @@ HEADERS  += mainwindow.h \
     GLContainer.h \
     GLWidget.h \
     VertexData.h \
-    VertexDataHelper.h
+    VertexDataHelper.h \
+    SystemParams.h
 
 FORMS    += mainwindow.ui
 

@@ -6,6 +6,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    // QStyle
+
     QApplication::setStyle(QStyleFactory::create("fusion"));
     QPalette p;
     p = qApp->palette();

@@ -342,10 +342,3 @@ GLWidget* GLContainer::GetGLWidget()
 {
     return this->_glWidget;
 }
-
-/*
-void GLContainer::DoClustering(int k)
-{
-    this->glWidget->DoClustering(k);
-}
-*/
