@@ -4,6 +4,6 @@ SystemParams::SystemParams()
 {
 }
 
-std::string SystemParams::v_shader_file = "../QtOpenGLCanvas33/shader.vert";
+std::string SystemParams::v_shader_file = ":/shader.vert";
 
-std::string SystemParams::f_shader_file = "../QtOpenGLCanvas33/shader.frag";
+std::string SystemParams::f_shader_file = ":/shader.frag";

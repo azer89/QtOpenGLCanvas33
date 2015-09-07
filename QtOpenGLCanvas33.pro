@@ -13,23 +13,26 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    GLContainer.cpp \
-    GLWidget.cpp \
-    VertexDataHelper.cpp \
-    SystemParams.cpp
+           mainwindow.cpp \
+           GLContainer.cpp \
+           GLWidget.cpp \
+           VertexDataHelper.cpp \
+           SystemParams.cpp
 
 HEADERS  += mainwindow.h \
-    ALine.h \
-    AVector.h \
-    GLContainer.h \
-    GLWidget.h \
-    VertexData.h \
-    VertexDataHelper.h \
-    SystemParams.h
+            ALine.h \
+            AVector.h \
+            GLContainer.h \
+            GLWidget.h \
+            VertexData.h \
+            VertexDataHelper.h \
+            SystemParams.h
 
 FORMS    += mainwindow.ui
 
 QMAKE_CXXFLAGS += -frounding-math -O3
 
 QMAKE_CXXFLAGS += -std=gnu++1y
+
+RESOURCES += \
+    resources.qrc
