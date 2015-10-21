@@ -14,10 +14,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
            mainwindow.cpp \
-           GLContainer.cpp \
            GLWidget.cpp \
            VertexDataHelper.cpp \
-           SystemParams.cpp
+           SystemParams.cpp \
+           GLContainer.cpp
 
 HEADERS  += mainwindow.h \
             ALine.h \

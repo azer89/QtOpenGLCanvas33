@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -45,7 +45,7 @@
   <customwidget>
    <class>GLContainer</class>
    <extends>QWidget</extends>
-   <header>GLContainer.h</header>
+   <header location="global">GLContainer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
