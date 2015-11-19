@@ -3,11 +3,11 @@
 
 VertexDataHelper::VertexDataHelper(QOpenGLShaderProgram* shaderProgram)
 {
-    this->_shaderProgram = shaderProgram;
-    this->_colorLocation = _shaderProgram->attributeLocation("vertexColor");
-    this->_vertexLocation = _shaderProgram->attributeLocation("vert");
+    this->_shaderProgram      = shaderProgram;
+    this->_colorLocation      = _shaderProgram->attributeLocation("vertexColor");
+    this->_vertexLocation     = _shaderProgram->attributeLocation("vert");
     this->_use_color_location = _shaderProgram->uniformLocation("use_color");
-    this->_texCoordLocation = _shaderProgram->attributeLocation("uv");
+    this->_texCoordLocation   = _shaderProgram->attributeLocation("uv");
 }
 
 VertexDataHelper::~VertexDataHelper()
@@ -95,9 +95,7 @@ void VertexDataHelper::BuildPointsVertexData(std::vector<AVector> points, QOpenG
 
     QVector<VertexData> data;
     for(uint a = 0; a < points.size(); a++)
-    {
-        data.append(VertexData(QVector3D(points[a].x, points[a].y,  0), QVector2D(), vecCol));
-    }
+        { data.append(VertexData(QVector3D(points[a].x, points[a].y,  0), QVector2D(), vecCol)); }
 
     BuildVboWithColor(data, ptsVbo);
 

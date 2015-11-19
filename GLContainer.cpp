@@ -1,9 +1,4 @@
 
-
-
-
-//#include "stdafx.h"
-
 #include "GLContainer.h"
 
 #include <iostream>
@@ -87,10 +82,10 @@ void GLContainer::UpdateViewport(bool putInMiddle)
         ySPos = yRev - _mousePos.y();
     }
 
-    int leftRange = 0;
+    int leftRange  = 0;
     int rightRange = 0;
-    int upRange = 0;
-    int downRange = 0;
+    int upRange    = 0;
+    int downRange  = 0;
 
     float hPos = 0;
     float vPos = 0;
@@ -101,17 +96,18 @@ void GLContainer::UpdateViewport(bool putInMiddle)
     if(img_width <= barSize.width())
     {
         if(putInMiddle)hPos = -xGap * 0.5; //
-        else hPos = xSPos;
+        else hPos  = xSPos;
 
-        leftRange = -img_width - xGap;
+        leftRange  = -img_width - xGap;
         rightRange = img_width;
 
     }
     else
     {
         if(putInMiddle) hPos = xGap * 0.5;
-        else hPos = xSPos;
-        leftRange = -img_width + xGap;
+        else hPos  = xSPos;
+
+        leftRange  = -img_width + xGap;
         rightRange = img_width;
     }
 
@@ -120,7 +116,7 @@ void GLContainer::UpdateViewport(bool putInMiddle)
         if(putInMiddle) vPos = -yGap * 0.5;
         else vPos = ySPos;
 
-        upRange =  -img_height -yGap;
+        upRange   = -img_height -yGap;
         downRange = img_height;
 
     }
@@ -128,7 +124,8 @@ void GLContainer::UpdateViewport(bool putInMiddle)
     {
         if(putInMiddle) vPos = yGap * 0.5;
         else vPos = ySPos;
-        upRange = -img_height + yGap;
+
+        upRange   = -img_height + yGap;
         downRange = img_height;
     }
 
@@ -212,7 +209,10 @@ void GLContainer::SetScrolls()
         { _glWidget->ZoomOut(); }
         else
         { shouldZoom = false; }
-    } while (shouldZoom);
+
+    }
+    while (shouldZoom);
+
     UpdateViewport(true);
 }
 
@@ -294,8 +294,8 @@ void GLContainer::wheelEvent(QWheelEvent* event)
 
     //if(this->_ctrlPressed)
     //{
-        if(scrollDir) _glWidget->ZoomOut();
-        else _glWidget->ZoomIn();
+    if(scrollDir) _glWidget->ZoomOut();
+    else _glWidget->ZoomIn();
     //}
 
     //float zoomFactor = _glWidget->GetZoomFactor() * 100.0;
