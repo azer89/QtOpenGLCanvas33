@@ -2,7 +2,14 @@
 #define SYSTEMPARAMS_H
 
 #include <iostream>
-//#include <cstring>
+
+
+/**
+ * radhitya@uwaterloo.ca
+ *
+ *
+ *
+ */
 
 class SystemParams
 {

@@ -3,6 +3,12 @@
 
 #include <QMainWindow>
 
+/**
+ * radhitya@uwaterloo.ca
+ *
+ *
+ */
+
 namespace Ui {
 class MainWindow;
 }

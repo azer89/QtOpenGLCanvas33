@@ -1,6 +1,13 @@
 
 #include "VertexDataHelper.h"
 
+/**
+ * radhitya@uwaterloo.ca
+ *
+ *
+ *
+ */
+
 VertexDataHelper::VertexDataHelper(QOpenGLShaderProgram* shaderProgram)
 {
     this->_shaderProgram      = shaderProgram;

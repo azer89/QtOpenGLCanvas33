@@ -13,6 +13,13 @@
 #include "VertexData.h"
 #include "VertexDataHelper.h"
 
+/**
+ * radhitya@uwaterloo.ca
+ *
+ *
+ *
+ */
+
 class GLWidget : public QGLWidget
 {
     Q_OBJECT
@@ -43,12 +50,12 @@ private:
     QOpenGLVertexArrayObject _linesVao;
 
     // for rendering
-    int         _mvpMatrixLocation;
-    int         _colorLocation;
-    int         _vertexLocation;
-    int         _use_color_location;
-    QMatrix4x4  _perspMatrix;
-    QMatrix4x4  _transformMatrix;
+    int        _mvpMatrixLocation;
+    int        _colorLocation;
+    int        _vertexLocation;
+    int        _use_color_location;
+    QMatrix4x4 _perspMatrix;
+    QMatrix4x4 _transformMatrix;
 
 private:
     void CreateCurve(); // remove this

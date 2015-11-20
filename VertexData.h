@@ -4,7 +4,13 @@
 #include <QVector2D>
 #include <QVector3D>
 
-// VertexData
+/**
+ * radhitya@uwaterloo.ca
+ *
+ *
+ *
+ */
+
 struct VertexData
 {
     QVector3D position;

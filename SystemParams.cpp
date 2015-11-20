@@ -1,5 +1,12 @@
 #include "SystemParams.h"
 
+/**
+ * radhitya@uwaterloo.ca
+ *
+ *
+ *
+ */
+
 SystemParams::SystemParams()
 {
 }

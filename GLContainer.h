@@ -6,6 +6,14 @@
 
 #include "GLWidget.h"
 
+
+/**
+ * radhitya@uwaterloo.ca
+ *
+ *
+ *
+ */
+
 class GLContainer : public QAbstractScrollArea
 {
     Q_OBJECT

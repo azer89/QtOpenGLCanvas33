@@ -12,6 +12,13 @@
 #include "VertexData.h"
 #include "SystemParams.h"
 
+/**
+ * radhitya@uwaterloo.ca
+ *
+ *
+ *
+ */
+
 GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     QGLWidget(format, parent),
     _vDataHelper(0),
@@ -21,7 +28,6 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     _img_height(50),
     _slice(8),
     _shaderProgram(0)
-
 {
 }
 
@@ -179,9 +185,7 @@ void GLWidget::RemoveSlice()
 {
     this->_slice--;
     if(this->_slice < 3)
-    {
-        this->_slice = 3;
-    }
+        { this->_slice = 3; }
     CreateCurve();
     BuildCurveVertexData();
 }
