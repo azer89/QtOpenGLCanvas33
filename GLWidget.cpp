@@ -196,8 +196,8 @@ void GLWidget::CreateCurve()
 
     AVector centerPt(this->_img_width / 2, this->_img_height / 2);
 
-    float addValue = (M_PI * 2.0 / _slice);
-    for(float a = 0.0; a < M_PI * 2.0; a += addValue)
+	float addValue = (3.14159 * 2.0 / _slice);
+	for (float a = 0.0; a < 3.14159 * 2.0; a += addValue)
     {
         float xPt = centerPt.x + 10 * sin(a);
         float yPt = centerPt.y + 10 * cos(a);
