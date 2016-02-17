@@ -16,6 +16,10 @@
  *
  */
 
+// Todo: https://github.com/azer89/IslamicStarPatterns/blob/master/PatternGenerator.h
+// void BuildQuadsVertexData(std::vector<ALine> lines, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
+// void BuildTrianglesVertexData(std::vector<ALine> lines, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
+
 class VertexDataHelper
 {
 public:
@@ -30,7 +34,11 @@ public:
     void BuildPointsVertexData(std::vector<AVector> points, QOpenGLBuffer* ptsVbo,   QOpenGLVertexArrayObject* ptsVao,   QVector3D vecCol);
     void BuildLinesVertexData( std::vector<ALine>   lines,  QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol);
     void BuildLinesVertexData( std::vector<ALine>   lines,  QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol1, QVector3D vecCol2);
-    void BuildVboWithColor(    QVector<VertexData>  data,   QOpenGLBuffer* vbo);
+    
+	void BuildVboWithColor(    QVector<VertexData>  data,   QOpenGLBuffer* vbo);
+
+	void BuildQuadsVertexData(std::vector<ALine> lines, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
+	void BuildTrianglesVertexData(std::vector<ALine> lines, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
 
 private:
     QOpenGLShaderProgram* _shaderProgram;
@@ -39,6 +47,8 @@ private:
     int _vertexLocation;
     int _use_color_location;
     int _texCoordLocation;
+
+	
 };
 
 #endif // VERTEXDATAHELPER_H

@@ -25,6 +25,12 @@ class GLWidget : public QGLWidget
     Q_OBJECT
 
 private:
+
+	// box
+	std::vector<ALine>  _boxLines;
+	QOpenGLBuffer               _boxLinesVbo;
+	QOpenGLVertexArrayObject    _boxLinesVao;
+
     VertexDataHelper* _vDataHelper;
 
     bool   _isMouseDown;

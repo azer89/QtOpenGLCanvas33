@@ -19,6 +19,11 @@
  *
  */
 
+// Todo:
+// https://github.com/azer89/IslamicStarPatterns/blob/master/PatternGenerator.h
+// https://github.com/azer89/IslamicStarPatterns/blob/master/PatternGenerator.cpp
+
+
 GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     QGLWidget(format, parent),
     _vDataHelper(0),
@@ -69,6 +74,11 @@ void GLWidget::initializeGL()
 
     CreateCurve();
     BuildCurveVertexData();
+
+	// a box
+	_boxLines.push_back(ALine(0, 0, 0, this->_img_width));
+	_boxLines.push_back(ALine(this->_img_height, 0, this->_img_height, this->_img_width));
+	_vDataHelper->BuildQuadsVertexData(_boxLines, &_boxLinesVbo, &_boxLinesVao, QVector3D(0, 0.75, 0.75));
 }
 
 bool GLWidget::event( QEvent * event )
@@ -108,6 +118,14 @@ void GLWidget::paintGL()
     _shaderProgram->setUniformValue(_mvpMatrixLocation, orthoMatrix * transformMatrix);
 
     PaintCurve();
+
+	if (_boxLinesVao.isCreated())
+	{
+		_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
+		_boxLinesVao.bind();
+		glDrawArrays(GL_QUADS, 0, _boxLines.size() * 2);
+		_boxLinesVao.release();
+	}
 }
 
 // Mouse is pressed
