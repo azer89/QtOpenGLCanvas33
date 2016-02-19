@@ -4,10 +4,10 @@
 #include <QMainWindow>
 
 /**
- * radhitya@uwaterloo.ca
- *
- *
- */
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+* February 2016
+*/
 
 namespace Ui {
 class MainWindow;

@@ -2,14 +2,11 @@
 #include <QApplication>
 #include <QStyleFactory>
 
-
 /**
- * radhitya@uwaterloo.ca
- *
- *
- *
- */
-
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+* February 2016
+*/
 
 int main(int argc, char *argv[])
 {

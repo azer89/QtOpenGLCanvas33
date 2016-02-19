@@ -9,15 +9,18 @@
 #include <QGLFormat>
 #include <QSvgGenerator>
 
+#include "AVector.h"
+#include "ALine.h"
+#include "ATriangle.h"
+#include "ABox.h"
 #include "VertexData.h"
 #include "SystemParams.h"
 
 /**
- * radhitya@uwaterloo.ca
- *
- *
- *
- */
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+* February 2016
+*/
 
 // Todo:
 // https://github.com/azer89/IslamicStarPatterns/blob/master/PatternGenerator.h
@@ -76,9 +79,16 @@ void GLWidget::initializeGL()
     BuildCurveVertexData();
 
 	// a box
-	_boxLines.push_back(ALine(0, 0, 0, this->_img_width));
-	_boxLines.push_back(ALine(this->_img_height, 0, this->_img_height, this->_img_width));
-	_vDataHelper->BuildQuadsVertexData(_boxLines, &_boxLinesVbo, &_boxLinesVao, QVector3D(0, 0.75, 0.75));
+	_boxes.push_back(ABox(AVector(0, 0), 
+						  AVector(0, this->_img_width), 
+						  AVector(this->_img_height, 0),
+						  AVector(this->_img_height, this->_img_width)));
+	_vDataHelper->BuildQuadsVertexData(_boxes, &_boxVbo, &_boxVao, QVector3D(0, 0.75, 0.75));
+
+	// a triangle
+	_triangles.push_back(ATriangle(AVector(1, 1), AVector(25, 25), AVector(1, 50)));
+	_vDataHelper->BuildTrianglesVertexData(_triangles, &_triangleVbo, &_triangleVao, QVector3D(1.0, 0.25, 0.25));
+
 }
 
 bool GLWidget::event( QEvent * event )
@@ -119,12 +129,20 @@ void GLWidget::paintGL()
 
     PaintCurve();
 
-	if (_boxLinesVao.isCreated())
+	if (_triangleVao.isCreated())
 	{
 		_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
-		_boxLinesVao.bind();
-		glDrawArrays(GL_QUADS, 0, _boxLines.size() * 2);
-		_boxLinesVao.release();
+		_triangleVao.bind();
+		glDrawArrays(GL_TRIANGLES, 0, _triangles.size() * 3);
+		_triangleVao.release();
+	}
+
+	if (_boxVao.isCreated())
+	{
+		_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
+		_boxVao.bind();
+		glDrawArrays(GL_QUADS, 0, _boxes.size() * 4);
+		_boxVao.release();
 	}
 }
 

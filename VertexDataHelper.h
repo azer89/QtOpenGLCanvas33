@@ -1,24 +1,27 @@
 #ifndef VERTEXDATAHELPER_H
 #define VERTEXDATAHELPER_H
 
-#include "AVector.h"
+/*#include "AVector.h"
 #include "ALine.h"
+#include "ATriangle.h"
+#include "ABox.h"*/
 #include "VertexData.h"
 
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 
-/**
- * radhitya@uwaterloo.ca
- *
- *
- *
- */
+// forward declaration
+struct AVector;
+struct ALine;
+struct ATriangle;
+struct ABox;
 
-// Todo: https://github.com/azer89/IslamicStarPatterns/blob/master/PatternGenerator.h
-// void BuildQuadsVertexData(std::vector<ALine> lines, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
-// void BuildTrianglesVertexData(std::vector<ALine> lines, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
+/**
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+* February 2016
+*/
 
 class VertexDataHelper
 {
@@ -37,8 +40,8 @@ public:
     
 	void BuildVboWithColor(    QVector<VertexData>  data,   QOpenGLBuffer* vbo);
 
-	void BuildQuadsVertexData(std::vector<ALine> lines, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
-	void BuildTrianglesVertexData(std::vector<ALine> lines, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
+	void BuildQuadsVertexData(std::vector<ABox> boxes, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
+	void BuildTrianglesVertexData(std::vector<ATriangle> triangles, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
 
 private:
     QOpenGLShaderProgram* _shaderProgram;

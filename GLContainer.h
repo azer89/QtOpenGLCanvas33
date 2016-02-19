@@ -4,15 +4,15 @@
 //#include "stdafx.h"
 #include <QAbstractScrollArea>
 
-#include "GLWidget.h"
+//#include "GLWidget.h"
+class GLWidget;
 
 
 /**
- * radhitya@uwaterloo.ca
- *
- *
- *
- */
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+* February 2016
+*/
 
 class GLContainer : public QAbstractScrollArea
 {

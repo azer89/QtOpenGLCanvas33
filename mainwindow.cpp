@@ -2,11 +2,10 @@
 #include "ui_mainwindow.h"
 
 /**
- * radhitya@uwaterloo.ca
- *
- *
- *
- */
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+* February 2016
+*/
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

@@ -8,17 +8,26 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 
+/*
 #include "AVector.h"
 #include "ALine.h"
+#include "ATriangle.h"
+#include "ABox.h"
+*/
 #include "VertexData.h"
 #include "VertexDataHelper.h"
 
 /**
- * radhitya@uwaterloo.ca
- *
- *
- *
- */
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+* February 2016
+*/
+
+// forward declaration
+struct AVector;
+struct ALine;
+struct ATriangle;
+struct ABox;
 
 class GLWidget : public QGLWidget
 {
@@ -26,10 +35,20 @@ class GLWidget : public QGLWidget
 
 private:
 
-	// box
-	std::vector<ALine>  _boxLines;
-	QOpenGLBuffer               _boxLinesVbo;
-	QOpenGLVertexArrayObject    _boxLinesVao;
+	// boxes
+	std::vector<ABox> _boxes;
+	QOpenGLBuffer               _boxVbo;
+	QOpenGLVertexArrayObject    _boxVao;
+	//std::vector<ALine>  _boxLines;
+	//QOpenGLBuffer               _boxLinesVbo;
+	//QOpenGLVertexArrayObject    _boxLinesVao;
+
+	// triangles
+	std::vector<ATriangle> _triangles;
+	QOpenGLBuffer               _triangleVbo;
+	QOpenGLVertexArrayObject    _triangleVao;
+	
+
 
     VertexDataHelper* _vDataHelper;
 

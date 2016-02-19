@@ -6,10 +6,12 @@
 #include <iostream> // for abs (?)
 
 /**
- * radhitya@uwaterloo.ca
- *
- *
- *
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+* February 2016
+*/
+
+/**
  * A struct to represent:
  *     1. A Point
  *     2. A Vector (direction only)

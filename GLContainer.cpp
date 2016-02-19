@@ -1,5 +1,6 @@
 
 #include "GLContainer.h"
+#include "GLWidget.h"
 
 #include <iostream>
 
@@ -12,12 +13,10 @@
 #include <QTimer>
 
 /**
- * radhitya@uwaterloo.ca
- *
- *
- *
- */
-
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+* February 2016
+*/
 
 GLContainer::GLContainer(QWidget *parent) :
     QAbstractScrollArea (parent),

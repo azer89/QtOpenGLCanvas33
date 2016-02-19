@@ -7,6 +7,12 @@
 #include <cmath>
 
 /**
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+* February 2016
+*/
+
+/**
  * A struct to represent:
  *     1. A Finite Lines
  *     2. A Ray with a start point and a direction

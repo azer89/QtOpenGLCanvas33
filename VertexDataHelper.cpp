@@ -1,11 +1,14 @@
 
+#include "AVector.h"
+#include "ALine.h"
+#include "ATriangle.h"
+#include "ABox.h"
 #include "VertexDataHelper.h"
 
 /**
+ * Reza Adhitya Saputra
  * radhitya@uwaterloo.ca
- *
- *
- *
+ * February 2016
  */
 
 VertexDataHelper::VertexDataHelper(QOpenGLShaderProgram* shaderProgram)
@@ -67,7 +70,7 @@ void VertexDataHelper::BuildLinesVertexData(std::vector<ALine> lines, QOpenGLBuf
     if(isInit) { linesVao->release(); }
 }
 
-void VertexDataHelper::BuildQuadsVertexData(std::vector<ALine> lines, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol)
+void VertexDataHelper::BuildQuadsVertexData(std::vector<ABox> boxes, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol)
 {
 	if (vao->isCreated()) { vao->destroy(); }
 
@@ -75,38 +78,42 @@ void VertexDataHelper::BuildQuadsVertexData(std::vector<ALine> lines, QOpenGLBuf
 	vao->bind();
 
 	QVector<VertexData> data;
-	for (uint a = 0; a < lines.size() - 1; a += 2)
+	//for (uint a = 0; a < lines.size() - 1; a += 2)
+	for (uint a = 0; a < boxes.size(); a++)
 	{
-		data.append(VertexData(QVector3D(lines[a].XA, lines[a].YA, 0), QVector2D(), vecCol));
-		data.append(VertexData(QVector3D(lines[a].XB, lines[a].YB, 0), QVector2D(), vecCol));
-
-		data.append(VertexData(QVector3D(lines[a + 1].XB, lines[a + 1].YB, 0), QVector2D(), vecCol));
-		data.append(VertexData(QVector3D(lines[a + 1].XA, lines[a + 1].YA, 0), QVector2D(), vecCol));
-
+		data.append(VertexData(QVector3D(boxes[a]._ptA.x, boxes[a]._ptA.y, 0), QVector2D(), vecCol));
+		data.append(VertexData(QVector3D(boxes[a]._ptB.x, boxes[a]._ptB.y, 0), QVector2D(), vecCol));
+		data.append(VertexData(QVector3D(boxes[a]._ptD.x, boxes[a]._ptD.y, 0), QVector2D(), vecCol)); // flipped
+		data.append(VertexData(QVector3D(boxes[a]._ptC.x, boxes[a]._ptC.y, 0), QVector2D(), vecCol)); // flipped		
 	}
 
-	vbo->create();
-	vbo->bind();
-	vbo->allocate(data.data(), data.size() * sizeof(VertexData));
-
-	quintptr offset = 0;
-
-	_shaderProgram->enableAttributeArray(_vertexLocation);
-	_shaderProgram->setAttributeBuffer(_vertexLocation, GL_FLOAT, 0, 3, sizeof(VertexData));
-
-	offset += sizeof(QVector3D);
-	offset += sizeof(QVector2D);
-
-	_shaderProgram->enableAttributeArray(_colorLocation);
-	_shaderProgram->setAttributeBuffer(_colorLocation, GL_FLOAT, offset, 3, sizeof(VertexData));
+	BuildVboWithColor(data, vbo);
 
 	vao->release();
 }
 
-void VertexDataHelper::BuildTrianglesVertexData(std::vector<ALine> lines, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol)
+
+void VertexDataHelper::BuildTrianglesVertexData(std::vector<ATriangle> triangles, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol)
 {
-	// need to be implemented
+	if (vao->isCreated()) { vao->destroy(); }
+
+	vao->create();
+	vao->bind();
+
+	QVector<VertexData> data;
+	//for (uint a = 0; a < lines.size(); a += 3)
+	for (uint a = 0; a < triangles.size(); a++)
+	{
+		data.append(VertexData(QVector3D(triangles[a]._ptA.x, triangles[a]._ptA.y, 0), QVector2D(), vecCol));
+		data.append(VertexData(QVector3D(triangles[a]._ptB.x, triangles[a]._ptB.y, 0), QVector2D(), vecCol));
+		data.append(VertexData(QVector3D(triangles[a]._ptC.x, triangles[a]._ptC.y, 0), QVector2D(), vecCol));
+	}
+
+	BuildVboWithColor(data, vbo);
+	
+	vao->release();
 }
+
 
 void VertexDataHelper::BuildLinesVertexData(std::vector<ALine> lines, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol)
 {
@@ -168,6 +175,8 @@ void VertexDataHelper::BuildVboWithColor(QVector<VertexData> data, QOpenGLBuffer
 
     _shaderProgram->enableAttributeArray(_colorLocation);
     _shaderProgram->setAttributeBuffer(_colorLocation, GL_FLOAT, offset, 3, sizeof(VertexData));
+
+	vbo->release();
 }
 
 
