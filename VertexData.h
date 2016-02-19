@@ -10,6 +10,8 @@
 * February 2016
 */
 
+// https://raw.githubusercontent.com/azer89/WVS/2fe0614a71b5596812650bb7ee63ae20d777c08b/GLWidget.cpp
+
 struct VertexData
 {
     QVector3D position;

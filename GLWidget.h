@@ -34,6 +34,10 @@ class GLWidget : public QGLWidget
     Q_OBJECT
 
 private:
+	// image
+	QImage _imgOriginal;
+	QImage _imgGL;
+	GLuint _imgID;
 
 	// boxes
 	std::vector<ABox> _boxes;
@@ -88,6 +92,9 @@ private:
     void BuildCurveVertexData(); // remove this
 
     void SaveToSvg();
+	
+	void SetImage(QString img);
+
 
 protected:
     // qt event

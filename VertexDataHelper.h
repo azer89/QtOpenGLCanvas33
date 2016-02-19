@@ -40,6 +40,7 @@ public:
     
 	void BuildVboWithColor(    QVector<VertexData>  data,   QOpenGLBuffer* vbo);
 
+	// https://raw.githubusercontent.com/azer89/WVS/2fe0614a71b5596812650bb7ee63ae20d777c08b/GLWidget.cpp
 	void BuildQuadsVertexData(std::vector<ABox> boxes, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
 	void BuildTrianglesVertexData(std::vector<ATriangle> triangles, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol);
 
@@ -49,9 +50,7 @@ private:
     int _colorLocation;
     int _vertexLocation;
     int _use_color_location;
-    int _texCoordLocation;
-
-	
+    int _texCoordLocation;	
 };
 
 #endif // VERTEXDATAHELPER_H

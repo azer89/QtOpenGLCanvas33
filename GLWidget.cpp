@@ -37,6 +37,7 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     _slice(8),
     _shaderProgram(0)
 {
+	//SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
 }
 
 GLWidget::~GLWidget()
@@ -47,6 +48,9 @@ GLWidget::~GLWidget()
 
 void GLWidget::initializeGL()
 {
+	std::cout << "Initialize GL\n";
+	//SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
+
     QGLFormat glFormat = QGLWidget::format();
     if (!glFormat.sampleBuffers()) { std::cerr << "Could not enable sample buffers." << std::endl; return; }
 
@@ -78,6 +82,8 @@ void GLWidget::initializeGL()
     CreateCurve();
     BuildCurveVertexData();
 
+	SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.jpg");
+
 	// a box
 	_boxes.push_back(ABox(AVector(0, 0), 
 						  AVector(0, this->_img_width), 
@@ -88,6 +94,7 @@ void GLWidget::initializeGL()
 	// a triangle
 	_triangles.push_back(ATriangle(AVector(1, 1), AVector(25, 25), AVector(1, 50)));
 	_vDataHelper->BuildTrianglesVertexData(_triangles, &_triangleVbo, &_triangleVao, QVector3D(1.0, 0.25, 0.25));
+
 
 }
 
@@ -129,6 +136,7 @@ void GLWidget::paintGL()
 
     PaintCurve();
 
+	// A triangle
 	if (_triangleVao.isCreated())
 	{
 		_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
@@ -137,13 +145,19 @@ void GLWidget::paintGL()
 		_triangleVao.release();
 	}
 
+	// A box
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, _imgID);
 	if (_boxVao.isCreated())
 	{
-		_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
+		//_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
+		_shaderProgram->setUniformValue(_use_color_location, (GLfloat)0.0);
 		_boxVao.bind();
 		glDrawArrays(GL_QUADS, 0, _boxes.size() * 4);
 		_boxVao.release();
 	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisable(GL_TEXTURE_2D);
 }
 
 // Mouse is pressed
@@ -277,6 +291,53 @@ void GLWidget::PaintCurve()
     _linesVao.bind();
     glDrawArrays(GL_LINES, 0, _points.size() * 2);
     _linesVao.release();
+}
+
+#define my_min(a,b) ((a)<(b) ? (a) : (b))
+#define my_max(a,b) ((a)>(b) ? (a) : (b))
+
+void GLWidget::SetImage(QString img)
+{
+	//this->Reset();
+	bool isLoaded = _imgOriginal.load(img);
+
+	if (isLoaded)
+	{
+		std::cout << "image OK\n";
+	}
+	else
+	{
+		std::cout << "image error\n";
+	}
+
+	// size
+	this->_img_width = _imgOriginal.width();
+	this->_img_height = _imgOriginal.height();
+
+	// calculating power-of-two (pow) size
+	int xpow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_width) / std::log10(2.0)));
+	int ypow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_height) / std::log10(2.0)));
+
+	xpow = my_max(xpow, ypow);	// the texture should be square too
+	xpow = my_min(xpow, 1024);	// shrink if the size is too big
+	ypow = xpow;
+
+	// transform the image to square pow size
+	_imgGL = _imgOriginal.scaled(xpow, ypow, Qt::IgnoreAspectRatio);
+	_imgGL = QGLWidget::convertToGLFormat(_imgGL);
+
+	glGenTextures(1, &_imgID);
+	glBindTexture(GL_TEXTURE_2D, _imgID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _imgGL.width(), _imgGL.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _imgGL.bits());
+	//glBindTexture(GL_TEXTURE_2D, 0);
+
+	//this->updateGL(); // Update !
+
+	std::cout << _imgID << "\n";
 }
 
 
