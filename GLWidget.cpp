@@ -89,7 +89,8 @@ void GLWidget::initializeGL()
 						  AVector(0, this->_img_width), 
 						  AVector(this->_img_height, 0),
 						  AVector(this->_img_height, this->_img_width)));
-	_vDataHelper->BuildQuadsVertexData(_boxes, &_boxVbo, &_boxVao, QVector3D(0, 0.75, 0.75));
+	//_vDataHelper->BuildQuadsVertexData(_boxes, &_boxVbo, &_boxVao, QVector3D(0, 0.75, 0.75));
+	_vDataHelper->BuildQuadsVertexData(_boxes, &_boxVbo, &_boxVao);
 
 	// a triangle
 	_triangles.push_back(ATriangle(AVector(1, 1), AVector(25, 25), AVector(1, 50)));
@@ -337,7 +338,11 @@ void GLWidget::SetImage(QString img)
 
 	//this->updateGL(); // Update !
 
-	std::cout << _imgID << "\n";
+	//std::cout << _imgID << "\n";
+
+	// delete these two lines
+	//this->_img_width = 20;
+	//this->_img_height = 20;
 }
 
 

@@ -74,6 +74,67 @@ void VertexDataHelper::BuildQuadsVertexData(std::vector<ABox> boxes, QOpenGLBuff
 {
 	// todo: add UV values :)
 	// https://raw.githubusercontent.com/azer89/WVS/2fe0614a71b5596812650bb7ee63ae20d777c08b/GLWidget.cpp
+
+	/*
+	imageVertices.append(VertexData(QVector3D(0.0,        0.0,          0.0f), QVector2D(0, 0)));
+    imageVertices.append(VertexData(QVector3D(_img_width, 0.0,          0.0f), QVector2D(1, 0)));
+    imageVertices.append(VertexData(QVector3D(_img_width, _img_height,  0.0f), QVector2D(1, 1)));
+    imageVertices.append(VertexData(QVector3D(0.0,        _img_height,  0.0f), QVector2D(0, 1)));
+	*/
+
+	if (vao->isCreated()) { vao->destroy(); }
+
+	vao->create();
+	vao->bind();
+
+	QVector<VertexData> data;
+	//for (uint a = 0; a < lines.size() - 1; a += 2)
+	/*
+	(0, 0)           (witdh, 0)
+	ptA ------------ ptB
+	ptC ------------ ptD
+	(0, height)      (width, height)
+	*/
+	/*
+	for (uint a = 0; a < boxes.size(); a++)
+	{
+		data.append(VertexData(QVector3D(boxes[a]._ptA.x, boxes[a]._ptA.y, 0), QVector2D(0, 0)));
+		data.append(VertexData(QVector3D(boxes[a]._ptB.x, boxes[a]._ptB.y, 0), QVector2D(1, 0)));
+		data.append(VertexData(QVector3D(boxes[a]._ptD.x, boxes[a]._ptD.y, 0), QVector2D(1, 1))); // flipped
+		data.append(VertexData(QVector3D(boxes[a]._ptC.x, boxes[a]._ptC.y, 0), QVector2D(0, 1))); // flipped		
+	}
+	*/
+	for (uint a = 0; a < boxes.size(); a++)
+	{
+		data.append(VertexData(QVector3D(boxes[a]._ptA.x, boxes[a]._ptA.y, 0), QVector2D(0, 1)));
+		data.append(VertexData(QVector3D(boxes[a]._ptB.x, boxes[a]._ptB.y, 0), QVector2D(0, 0)));
+		data.append(VertexData(QVector3D(boxes[a]._ptD.x, boxes[a]._ptD.y, 0), QVector2D(1, 0))); // flipped
+		data.append(VertexData(QVector3D(boxes[a]._ptC.x, boxes[a]._ptC.y, 0), QVector2D(1, 1))); // flipped		
+	}
+
+	vbo->create();
+	vbo->bind();
+	vbo->allocate(data.data(), 4 * sizeof(VertexData));
+
+	// Offset for position
+	quintptr offset = 0;
+
+	// vertex
+	int vertexLocation = _shaderProgram->attributeLocation("vert");
+	_shaderProgram->enableAttributeArray(vertexLocation);
+	_shaderProgram->setAttributeBuffer(vertexLocation, GL_FLOAT, offset, 3, sizeof(VertexData));
+
+	offset += sizeof(QVector3D);
+
+	// uv
+	int texcoordLocation = _shaderProgram->attributeLocation("uv");
+	_shaderProgram->enableAttributeArray(texcoordLocation);
+	_shaderProgram->setAttributeBuffer(texcoordLocation, GL_FLOAT, offset, 2, sizeof(VertexData));
+
+	vbo->release();
+
+	vao->release();
+
 }
 
 void VertexDataHelper::BuildQuadsVertexData(std::vector<ABox> boxes, QOpenGLBuffer* vbo, QOpenGLVertexArrayObject* vao, QVector3D vecCol)
