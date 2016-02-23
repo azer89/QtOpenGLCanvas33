@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>shader.frag</file>
         <file>shader.vert</file>
+        <file>laughing_man.jpg</file>
     </qresource>
 </RCC>

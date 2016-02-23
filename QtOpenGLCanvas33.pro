@@ -26,7 +26,9 @@ HEADERS  += mainwindow.h \
             GLWidget.h \
             VertexData.h \
             VertexDataHelper.h \
-            SystemParams.h
+            SystemParams.h \
+    ABox.h \
+    ATriangle.h
 
 FORMS    += mainwindow.ui
 

@@ -82,7 +82,8 @@ void GLWidget::initializeGL()
     CreateCurve();
     BuildCurveVertexData();
 
-	SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.jpg");
+    //SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.jpg");
+    SetImage(":/laughing_man.jpg");
 
 	// a box
 	_boxes.push_back(ABox(AVector(0, 0), 
