@@ -301,7 +301,10 @@ void GLWidget::PaintCurve()
 void GLWidget::SetImage(QString img)
 {
 	//this->Reset();
-	bool isLoaded = _imgOriginal.load(img);
+	//bool isLoaded = _imgOriginal.load(img);
+	bool isLoaded = true;
+	_imgOriginal = QImage(50, 50, QImage::Format_RGB32);
+
 
 	if (isLoaded)
 	{
@@ -315,6 +318,15 @@ void GLWidget::SetImage(QString img)
 	// size
 	this->_img_width = _imgOriginal.width();
 	this->_img_height = _imgOriginal.height();
+
+	for (int x = 0; x < this->_img_width; x++)
+	{
+		for (int y = 0; y < this->_img_height; y++)
+		{
+			_imgOriginal.setPixel(x, y, qRgb(150, 150, 150));
+		}
+	}
+
 
 	// calculating power-of-two (pow) size
 	int xpow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_width) / std::log10(2.0)));
