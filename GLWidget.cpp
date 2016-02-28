@@ -323,7 +323,7 @@ void GLWidget::SetImage(QString img)
 	{
 		for (int y = 0; y < this->_img_height; y++)
 		{
-			_imgOriginal.setPixel(x, y, qRgb(150, 150, 150));
+			_imgOriginal.setPixel(x, y, QColor(255, 150, 150, 255).rgba());
 		}
 	}
 
