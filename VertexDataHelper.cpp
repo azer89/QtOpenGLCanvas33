@@ -112,7 +112,8 @@ void VertexDataHelper::BuildQuadsVertexData(std::vector<ABox> boxes, QOpenGLBuff
 		data.append(VertexData(QVector3D(boxes[a]._ptC.x, boxes[a]._ptC.y, 0), QVector2D(1, 1))); // flipped		
 	}
 
-	vbo->create();
+
+	/*vbo->create();
 	vbo->bind();
 	vbo->allocate(data.data(), 4 * sizeof(VertexData));
 
@@ -131,7 +132,9 @@ void VertexDataHelper::BuildQuadsVertexData(std::vector<ABox> boxes, QOpenGLBuff
 	_shaderProgram->enableAttributeArray(texcoordLocation);
 	_shaderProgram->setAttributeBuffer(texcoordLocation, GL_FLOAT, offset, 2, sizeof(VertexData));
 
-	vbo->release();
+	vbo->release();*/
+
+	BuildVboWithTexture(data, vbo);
 
 	vao->release();
 
@@ -242,6 +245,31 @@ void VertexDataHelper::BuildVboWithColor(QVector<VertexData> data, QOpenGLBuffer
 
     _shaderProgram->enableAttributeArray(_colorLocation);
     _shaderProgram->setAttributeBuffer(_colorLocation, GL_FLOAT, offset, 3, sizeof(VertexData));
+
+	vbo->release();
+}
+
+void VertexDataHelper::BuildVboWithTexture(QVector<VertexData>  data, QOpenGLBuffer* vbo)
+{
+	//vbo->create();
+	if (!vbo->isCreated()) { vbo->create(); }
+	vbo->bind();
+	vbo->allocate(data.data(), 4 * sizeof(VertexData));
+
+	// Offset for position
+	quintptr offset = 0;
+
+	// vertex
+	int vertexLocation = _shaderProgram->attributeLocation("vert");
+	_shaderProgram->enableAttributeArray(vertexLocation);
+	_shaderProgram->setAttributeBuffer(vertexLocation, GL_FLOAT, offset, 3, sizeof(VertexData));
+
+	offset += sizeof(QVector3D);
+
+	// uv
+	int texcoordLocation = _shaderProgram->attributeLocation("uv");
+	_shaderProgram->enableAttributeArray(texcoordLocation);
+	_shaderProgram->setAttributeBuffer(texcoordLocation, GL_FLOAT, offset, 2, sizeof(VertexData));
 
 	vbo->release();
 }
