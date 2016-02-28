@@ -301,32 +301,24 @@ void GLWidget::PaintCurve()
 void GLWidget::SetImage(QString img)
 {
 	//this->Reset();
-	//bool isLoaded = _imgOriginal.load(img);
-	bool isLoaded = true;
-	_imgOriginal = QImage(50, 50, QImage::Format_RGB32);
+	bool isLoaded = _imgOriginal.load(img);
+	//bool isLoaded = true;
+	//_imgOriginal = QImage(50, 50, QImage::Format_RGB32);
 
-
-	if (isLoaded)
-	{
-		std::cout << "image OK\n";
-	}
-	else
-	{
-		std::cout << "image error\n";
-	}
+	if (isLoaded) { std::cout << "image OK\n"; }
+	else { std::cout << "image error\n"; }
 
 	// size
 	this->_img_width = _imgOriginal.width();
 	this->_img_height = _imgOriginal.height();
 
+	/*
 	for (int x = 0; x < this->_img_width; x++)
 	{
-		for (int y = 0; y < this->_img_height; y++)
-		{
-			_imgOriginal.setPixel(x, y, QColor(255, 150, 150, 255).rgba());
-		}
+		for (int y = 0; y < this->_img_height; y++) 
+			{ _imgOriginal.setPixel(x, y, QColor(255, 150, 150, 255).rgba()); }
 	}
-
+	*/
 
 	// calculating power-of-two (pow) size
 	int xpow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_width) / std::log10(2.0)));
@@ -350,9 +342,7 @@ void GLWidget::SetImage(QString img)
 	//glBindTexture(GL_TEXTURE_2D, 0);
 
 	//this->updateGL(); // Update !
-
 	//std::cout << _imgID << "\n";
-
 	// delete these two lines
 	//this->_img_width = 20;
 	//this->_img_height = 20;
