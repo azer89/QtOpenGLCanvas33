@@ -14,6 +14,7 @@
 #include "ATriangle.h"
 #include "ABox.h"
 #include "VertexData.h"
+#include "VertexDataHelper.h"
 #include "SystemParams.h"
 
 /**
@@ -44,7 +45,7 @@ GLWidget::~GLWidget()
 void GLWidget::initializeGL()
 {
 	std::cout << "Initialize GL\n";
-	//SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
+	SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
 
     QGLFormat glFormat = QGLWidget::format();
     if (!glFormat.sampleBuffers()) { std::cerr << "Could not enable sample buffers." << std::endl; return; }
@@ -334,6 +335,9 @@ void GLWidget::SetImage(QString img)
 	_imgGL = _imgOriginal.scaled(xpow, ypow, Qt::IgnoreAspectRatio);
 	_imgGL = QGLWidget::convertToGLFormat(_imgGL);
 
+	glBindTexture(GL_TEXTURE_2D, 0); // I just want to make sure...
+	glEnable(GL_TEXTURE_2D); // should I have this ?
+
 	glGenTextures(1, &_imgID);
 	glBindTexture(GL_TEXTURE_2D, _imgID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -341,15 +345,8 @@ void GLWidget::SetImage(QString img)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _imgGL.width(), _imgGL.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _imgGL.bits());
-	//glBindTexture(GL_TEXTURE_2D, 0);
 
-	//this->updateGL(); // Update !
-	//std::cout << _imgID << "\n";
-	// delete these two lines
-	//this->_img_width = 20;
-	//this->_img_height = 20;
-
-
+	glDisable(GL_TEXTURE_2D);  // should I have this ?
 }
 
 

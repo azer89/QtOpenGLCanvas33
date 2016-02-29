@@ -8,15 +8,6 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 
-/*
-#include "AVector.h"
-#include "ALine.h"
-#include "ATriangle.h"
-#include "ABox.h"
-*/
-#include "VertexData.h"
-#include "VertexDataHelper.h"
-
 /**
 * Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
@@ -28,6 +19,8 @@ struct AVector;
 struct ALine;
 struct ATriangle;
 struct ABox;
+struct VertexData;
+class VertexDataHelper;
 
 class GLWidget : public QGLWidget
 {
@@ -40,19 +33,14 @@ private:
 	GLuint _imgID;
 
 	// boxes
-	std::vector<ABox> _boxes;
-	QOpenGLBuffer               _boxVbo;
-	QOpenGLVertexArrayObject    _boxVao;
-	//std::vector<ALine>  _boxLines;
-	//QOpenGLBuffer               _boxLinesVbo;
-	//QOpenGLVertexArrayObject    _boxLinesVao;
+	std::vector<ABox>		 _boxes;
+	QOpenGLBuffer            _boxVbo;
+	QOpenGLVertexArrayObject _boxVao;
 
 	// triangles
-	std::vector<ATriangle> _triangles;
-	QOpenGLBuffer               _triangleVbo;
-	QOpenGLVertexArrayObject    _triangleVao;
-	
-
+	std::vector<ATriangle>   _triangles;
+	QOpenGLBuffer            _triangleVbo;
+	QOpenGLVertexArrayObject _triangleVao;
 
     VertexDataHelper* _vDataHelper;
 
@@ -86,28 +74,7 @@ private:
     QMatrix4x4 _perspMatrix;
     QMatrix4x4 _transformMatrix;
 
-private:
-    void CreateCurve(); // remove this
-    void PaintCurve(); // remove this
-    void BuildCurveVertexData(); // remove this
-
-    void SaveToSvg();
-	
-	void SetImage(QString img);
-
-
-protected:
-    // qt event
-    bool event( QEvent * event );
-    // init opengl
-    void initializeGL();
-    // draw
-    void paintGL();
-
-    void resizeGL(int width, int height);
-
 public:
-
     // constructor
     GLWidget( QGLFormat format, QWidget *parent = 0);
     // destructor
@@ -142,6 +109,24 @@ public:
     void mouseReleaseEvent(int x, int y);
     // mouse double click
     void mouseDoubleClick(int x, int y);
+
+protected:
+	// qt event
+	bool event(QEvent * event);
+	// init opengl
+	void initializeGL();
+	// draw
+	void paintGL();
+
+	void resizeGL(int width, int height);
+
+private:
+	void CreateCurve();			 // remove this
+	void PaintCurve();			 // remove this
+	void BuildCurveVertexData(); // remove this
+
+	void SaveToSvg();
+	void SetImage(QString img);
 };
 
 #endif // GLWIDGET_H
