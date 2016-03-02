@@ -160,6 +160,10 @@ void GLWidget::paintGL()
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glDisable(GL_TEXTURE_2D);
 	}
+    //else
+    //{
+    //    std::cout << "no image ID\n";
+    //}
 }
 
 // Mouse is pressed
