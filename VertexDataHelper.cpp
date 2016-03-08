@@ -53,12 +53,45 @@ void VertexDataHelper::BuildPathVertexData(APath aPath, QOpenGLBuffer* linesVbo,
 	if (isInit) { linesVao->release(); }
 }
 
-void VertexDataHelper::BuildPathsVertexData(std::vector<APath> paths, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, std::vector<QVector3D> colors)
+size_t VertexDataHelper::BuildPathsVertexData(std::vector<APath> paths, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, std::vector<QVector3D> colors)
 {
+	if (paths.size() == 0) { return 0; }
+
+	bool isInit = false;
+	if (!linesVao->isCreated())
+	{
+		linesVao->create();
+		linesVao->bind();
+		isInit = true;
+	}
+
+	QVector<VertexData> data;
 	for (size_t a = 0; a < paths.size(); a++)
 	{
 		// your code here
+		APath aPath = paths[a];
+		QVector3D vecCol = colors[a];
+
+		size_t path_length = aPath.points.size();
+		
+		for (uint a = 0; a < path_length - 1; a++)
+		{
+			//if (a < _points.size() - 1) { lines.push_back(ALine(_points[a], _points[a + 1])); }
+			//else { lines.push_back(ALine(_points[a], _points[0])); }
+			data.append(VertexData(QVector3D(aPath.points[a].x, aPath.points[a].y, 0), QVector2D(), vecCol));
+			data.append(VertexData(QVector3D(aPath.points[a + 1].x, aPath.points[a + 1].y, 0), QVector2D(), vecCol));
+		}
+		if (aPath.isClosed)
+		{
+			data.append(VertexData(QVector3D(aPath.points[path_length - 1].x, aPath.points[path_length - 1].y, 0), QVector2D(), vecCol));
+			data.append(VertexData(QVector3D(aPath.points[0].x, aPath.points[0].y, 0), QVector2D(), vecCol));
+		}
 	}
+
+	BuildVboWithColor(data, linesVbo);
+	if (isInit) { linesVao->release(); }
+
+	return data.size();
 }
 
 void VertexDataHelper::BuildLinesVertexData(std::vector<AVector> points, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol)

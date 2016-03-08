@@ -66,9 +66,18 @@ private:
     QOpenGLBuffer            _pointsVbo;
     QOpenGLVertexArrayObject _pointsVao;
 
-    // lines
+    // path
     QOpenGLBuffer            _linesVbo;
     QOpenGLVertexArrayObject _linesVao;
+
+	// multiple paths
+	//APath					  _tempPath;
+	size_t					 _pathsDataSize;
+	std::vector<QVector3D>	 _pathsColors;
+	std::vector<APath>		 _paths;
+	QOpenGLBuffer            _pathsVbo;
+	QOpenGLVertexArrayObject _pathsVao;
+
 
     // for rendering
     int        _mvpMatrixLocation;

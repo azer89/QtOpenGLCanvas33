@@ -33,7 +33,8 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     _img_height(50),
     _slice(8),
     _shaderProgram(0),
-	_imgID(0)
+	_imgID(0),
+	_pathsDataSize(0)
 {
 }
 
@@ -135,6 +136,17 @@ void GLWidget::paintGL()
 
     _shaderProgram->setUniformValue(_mvpMatrixLocation, orthoMatrix * transformMatrix);
 
+	if (_pathsDataSize > 0)
+	{
+		//std::cout << "draw paths\n";
+		_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
+
+		glLineWidth(5.0f);
+		_pathsVao.bind();
+		glDrawArrays(GL_LINES, 0, _pathsDataSize);
+		_pathsVao.release();
+	}
+
     PaintCurve();
 
 	// A triangle
@@ -178,6 +190,19 @@ void GLWidget::mousePressEvent(int x, int y)
     double dy = y + _scrollOffset.y();
     dy /= _zoomFactor;
 
+	// add a path
+	_paths.push_back(APath());
+	size_t sz = _paths.size();
+	_paths[sz - 1].points.push_back(AVector(dx, dy));
+	// add a color
+	double rCol = ((double)rand() / (RAND_MAX));
+	double gCol = ((double)rand() / (RAND_MAX));
+	double bCol = ((double)rand() / (RAND_MAX));
+	_pathsColors.push_back(QVector3D(rCol, gCol, bCol));
+	// rebuilt VAO and VBO
+	_pathsDataSize = _vDataHelper->BuildPathsVertexData(_paths, &_pathsVbo, &_pathsVao, _pathsColors);
+
+
     this->repaint();
 }
 
@@ -191,6 +216,13 @@ void GLWidget::mouseMoveEvent(int x, int y)
     dy /= _zoomFactor;
 
     // your stuff
+	size_t sz = _paths.size();
+	if (sz > 0 && _isMouseDown)
+	{
+		_paths[sz - 1].points.push_back(AVector(dx, dy));
+		// rebuilt VAO and VBO
+		_pathsDataSize = _vDataHelper->BuildPathsVertexData(_paths, &_pathsVbo, &_pathsVao, _pathsColors);
+	}
 
     this->repaint();
 }
@@ -206,7 +238,14 @@ void GLWidget::mouseReleaseEvent(int x, int y)
     double dy = y + _scrollOffset.y();
     dy /= _zoomFactor;
 
-    // your stuff
+	// your stuff
+	size_t sz = _paths.size();
+	if (sz > 0 && _isMouseDown)
+	{
+		_paths[sz - 1].points.push_back(AVector(dx, dy));
+		// rebuilt VAO and VBO
+		_pathsDataSize = _vDataHelper->BuildPathsVertexData(_paths, &_pathsVbo, &_pathsVao, _pathsColors);
+	}
 
     this->repaint();
 }

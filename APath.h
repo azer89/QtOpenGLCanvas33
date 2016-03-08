@@ -20,9 +20,16 @@ public:
 	bool isClosed;
 	// float thickness;
 
+	// Constructor #1
 	APath()
 	{
 		this->isClosed = false;
+	}
+
+	// Constructor #2
+	APath(bool isClosed)
+	{
+		this->isClosed = isClosed;
 	}
 };
 

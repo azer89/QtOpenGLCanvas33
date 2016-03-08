@@ -35,7 +35,7 @@ public:
 
 	// path (NEW)
 	void BuildPathVertexData(APath aPath, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol);
-	void BuildPathsVertexData(std::vector<APath> paths, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, std::vector<QVector3D> colors);
+	size_t BuildPathsVertexData(std::vector<APath> paths, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, std::vector<QVector3D> colors);
 
     // these functions below are pretty standard
     void BuildLinesVertexData( std::vector<AVector> points, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol);
