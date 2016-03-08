@@ -3,6 +3,7 @@
 #include "ALine.h"
 #include "ATriangle.h"
 #include "ABox.h"
+#include "APath.h"
 #include "VertexDataHelper.h"
 
 /**
@@ -24,9 +25,45 @@ VertexDataHelper::~VertexDataHelper()
 {
 }
 
+void VertexDataHelper::BuildPathVertexData(APath aPath, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol)
+{
+	if (aPath.points.size() == 0) { return; }
+	bool isInit = false;
+	if (!linesVao->isCreated())
+	{
+		linesVao->create();
+		linesVao->bind();
+		isInit = true;
+	}
+	size_t path_length = aPath.points.size();
+	QVector<VertexData> data;
+	for (uint a = 0; a < path_length - 1; a++)
+	{
+		//if (a < _points.size() - 1) { lines.push_back(ALine(_points[a], _points[a + 1])); }
+		//else { lines.push_back(ALine(_points[a], _points[0])); }
+		data.append(VertexData(QVector3D(aPath.points[a].x, aPath.points[a].y, 0), QVector2D(), vecCol));
+		data.append(VertexData(QVector3D(aPath.points[a + 1].x, aPath.points[a + 1].y, 0), QVector2D(), vecCol));
+	}
+	if (aPath.isClosed)
+	{
+		data.append(VertexData(QVector3D(aPath.points[path_length - 1].x, aPath.points[path_length - 1].y, 0), QVector2D(), vecCol));
+		data.append(VertexData(QVector3D(aPath.points[0].x, aPath.points[0].y, 0), QVector2D(), vecCol));
+	}
+	BuildVboWithColor(data, linesVbo);
+	if (isInit) { linesVao->release(); }
+}
+
+void VertexDataHelper::BuildPathsVertexData(std::vector<APath> paths, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, std::vector<QVector3D> colors)
+{
+	for (size_t a = 0; a < paths.size(); a++)
+	{
+		// your code here
+	}
+}
+
 void VertexDataHelper::BuildLinesVertexData(std::vector<AVector> points, QOpenGLBuffer* linesVbo, QOpenGLVertexArrayObject* linesVao, QVector3D vecCol)
 {
-    if(points.size() == 0) return;
+	if (points.size() == 0) { return; }
 
     bool isInit = false;
     if(!linesVao->isCreated())
@@ -78,6 +115,7 @@ void VertexDataHelper::BuildQuadsVertexData(std::vector<ABox> boxes, QOpenGLBuff
 	vao->bind();
 
 	QVector<VertexData> data;
+	// this diagram is wrong
 	/*
 	(0, 0)           (witdh, 0)
 	ptB ------------ ptD

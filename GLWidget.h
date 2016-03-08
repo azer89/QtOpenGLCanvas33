@@ -8,6 +8,8 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 
+#include "APath.h"
+
 /**
 * Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
@@ -19,6 +21,7 @@ struct AVector;
 struct ALine;
 struct ATriangle;
 struct ABox;
+//struct APath;
 struct VertexData;
 class VertexDataHelper;
 
@@ -58,7 +61,8 @@ private:
     QOpenGLShaderProgram* _shaderProgram;
 
     // points
-    std::vector<AVector>     _points;
+	APath					  _path;
+    //std::vector<AVector>     _points;
     QOpenGLBuffer            _pointsVbo;
     QOpenGLVertexArrayObject _pointsVao;
 

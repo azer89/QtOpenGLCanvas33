@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="ABox.h" />
     <ClInclude Include="ALine.h" />
+    <ClInclude Include="APath.h" />
     <ClInclude Include="ATriangle.h" />
     <ClInclude Include="AVector.h" />
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h" />

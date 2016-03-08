@@ -13,6 +13,7 @@
 #include "ALine.h"
 #include "ATriangle.h"
 #include "ABox.h"
+#include "APath.h"
 #include "VertexData.h"
 #include "VertexDataHelper.h"
 #include "SystemParams.h"
@@ -248,7 +249,8 @@ void GLWidget::RemoveSlice()
 
 void GLWidget::CreateCurve()
 {
-    _points.clear();
+    //_points.clear();
+	_path.points.clear();
 
     AVector centerPt(this->_img_width / 2, this->_img_height / 2);
 
@@ -257,25 +259,30 @@ void GLWidget::CreateCurve()
     {
         float xPt = centerPt.x + 10 * sin(a);
         float yPt = centerPt.y + 10 * cos(a);
-        _points.push_back(AVector(xPt, yPt));
+		_path.points.push_back(AVector(xPt, yPt));
     }
+	_path.isClosed = true;
 }
 
 void GLWidget::BuildCurveVertexData()
 {
     // POINTS
     QVector3D vecCol = QVector3D(1.0, 0.0, 0.0);
-    _vDataHelper->BuildPointsVertexData(_points, &_pointsVbo, &_pointsVao, vecCol);
+    //_vDataHelper->BuildPointsVertexData(_points, &_pointsVbo, &_pointsVao, vecCol);
+	_vDataHelper->BuildPointsVertexData(_path.points, &_pointsVbo, &_pointsVao, vecCol);
 
-    // LINES
+    // LINES	
     vecCol = QVector3D(0.0, 0.5, 1.0);
+	/*
     std::vector<ALine> lines;
     for(uint a = 0; a < _points.size(); a++)
     {
         if(a < _points.size() - 1) { lines.push_back(ALine(_points[a], _points[a + 1])); }
         else { lines.push_back(ALine(_points[a], _points[0])); }
     }
-    _vDataHelper->BuildLinesVertexData(lines, &_linesVbo, &_linesVao, vecCol);
+	*/
+    //_vDataHelper->BuildLinesVertexData(lines, &_linesVbo, &_linesVao, vecCol);
+	_vDataHelper->BuildPathVertexData(_path, &_linesVbo, &_linesVao, vecCol);
 }
 
 void GLWidget::SaveToSvg()
@@ -284,18 +291,18 @@ void GLWidget::SaveToSvg()
 
 void GLWidget::PaintCurve()
 {
-    if(_points.size() == 0) { return; }
+    if(_path.points.size() == 0) { return; }
 
     _shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
 
     glPointSize(5.0f);
     _pointsVao.bind();
-    glDrawArrays(GL_POINTS, 0, _points.size());
+	glDrawArrays(GL_POINTS, 0, _path.points.size());
     _pointsVao.release();
 
-    glLineWidth(2.0f);
+    glLineWidth(5.0f);
     _linesVao.bind();
-    glDrawArrays(GL_LINES, 0, _points.size() * 2);
+	glDrawArrays(GL_LINES, 0, _path.points.size() * 2);
     _linesVao.release();
 }
 

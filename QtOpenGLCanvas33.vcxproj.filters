@@ -117,6 +117,9 @@
     <ClInclude Include="ATriangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="APath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="QtOpenGLCanvas33.rc" />
