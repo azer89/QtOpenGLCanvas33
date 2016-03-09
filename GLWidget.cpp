@@ -46,49 +46,46 @@ GLWidget::~GLWidget()
 
 void GLWidget::initializeGL()
 {
-	std::cout << "Initialize GL\n";
+	//std::cout << "Initialize GL\n";
 	SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
 
+	/* OpenGL format */
     QGLFormat glFormat = QGLWidget::format();
     if (!glFormat.sampleBuffers()) { std::cerr << "Could not enable sample buffers." << std::endl; return; }
 
+	/* Stuff I forget what their purposes are */
     glShadeModel(GL_SMOOTH);
-
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor( 1.0, 1.0, 1.0, 1.0 );
     glEnable(GL_DEPTH_TEST);
 
+	/* Shaders */
     _shaderProgram = new QOpenGLShaderProgram();
     if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, SystemParams::v_shader_file.c_str()))
         { std::cerr << "Cannot load vertex shader." << std::endl; return; }
-
-    if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, SystemParams::f_shader_file.c_str()))
+	if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, SystemParams::f_shader_file.c_str()))
         { std::cerr << "Cannot load fragment shader." << std::endl; return; }
-
-    if ( !_shaderProgram->link() )
+	if ( !_shaderProgram->link() )
         { std::cerr << "Cannot link shaders." << std::endl; return; }
-
     _shaderProgram->bind();
-    _mvpMatrixLocation = _shaderProgram->uniformLocation("mvpMatrix");
-    _colorLocation = _shaderProgram->attributeLocation("vertexColor");
-    _vertexLocation = _shaderProgram->attributeLocation("vert");
+    _mvpMatrixLocation  = _shaderProgram->uniformLocation("mvpMatrix");
+    _colorLocation      = _shaderProgram->attributeLocation("vertexColor");
+    _vertexLocation     = _shaderProgram->attributeLocation("vert");
     _use_color_location = _shaderProgram->uniformLocation("use_color");
 
+	/* for VBO and VAO */
     _vDataHelper = new VertexDataHelper(_shaderProgram);
 
+	/* something */
     CreateCurve();
     BuildCurveVertexData();
-
-    //SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.jpg");
-    //SetImage(":/laughing_man.jpg");
 
 	// a box
 	_boxes.push_back(ABox(AVector(0, 0), 
 						  AVector(0, this->_img_width), 
 						  AVector(this->_img_height, 0),
 						  AVector(this->_img_height, this->_img_width)));
-	//_vDataHelper->BuildQuadsVertexData(_boxes, &_boxVbo, &_boxVao, QVector3D(0, 0.75, 0.75));
 	_vDataHelper->BuildQuadsVertexData(_boxes, &_boxVbo, &_boxVao);
 
 	// a triangle
@@ -118,11 +115,9 @@ void GLWidget::paintGL()
     int current_width = width();
     int current_height = height();
 
-	//SetImage(":/laughing_man.jpg");
-
-    // Set orthographic Matrix
+	// Set orthographic Matrix
+	// the y axis is flipped because the origin is at the top-left corner
     QMatrix4x4 orthoMatrix;
-
     orthoMatrix.ortho(0.0 +  _scrollOffset.x(),
                       (float)current_width +  _scrollOffset.x(),
                       (float)current_height + _scrollOffset.y(),
@@ -173,10 +168,6 @@ void GLWidget::paintGL()
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glDisable(GL_TEXTURE_2D);
 	}
-    //else
-    //{
-    //    std::cout << "no image ID\n";
-    //}
 }
 
 // Mouse is pressed
@@ -312,15 +303,6 @@ void GLWidget::BuildCurveVertexData()
 
     // LINES	
     vecCol = QVector3D(0.0, 0.5, 1.0);
-	/*
-    std::vector<ALine> lines;
-    for(uint a = 0; a < _points.size(); a++)
-    {
-        if(a < _points.size() - 1) { lines.push_back(ALine(_points[a], _points[a + 1])); }
-        else { lines.push_back(ALine(_points[a], _points[0])); }
-    }
-	*/
-    //_vDataHelper->BuildLinesVertexData(lines, &_linesVbo, &_linesVao, vecCol);
 	_vDataHelper->BuildPathVertexData(_path, &_linesVbo, &_linesVao, vecCol);
 }
 

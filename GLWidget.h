@@ -71,7 +71,6 @@ private:
     QOpenGLVertexArrayObject _linesVao;
 
 	// multiple paths
-	//APath					  _tempPath;
 	size_t					 _pathsDataSize;
 	std::vector<QVector3D>	 _pathsColors;
 	std::vector<APath>		 _paths;
