@@ -21,7 +21,7 @@ struct AVector;
 struct ALine;
 struct ATriangle;
 struct ABox;
-//struct APath;
+//struct APath; // cannot forward declaration ?
 struct VertexData;
 class VertexDataHelper;
 
@@ -61,8 +61,8 @@ private:
     QOpenGLShaderProgram* _shaderProgram;
 
     // points
-	APath					  _path;
-    //std::vector<AVector>     _points;
+	APath					 _path;
+    //std::vector<AVector>   _points;
     QOpenGLBuffer            _pointsVbo;
     QOpenGLVertexArrayObject _pointsVao;
 
