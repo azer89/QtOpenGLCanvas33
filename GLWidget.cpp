@@ -21,7 +21,7 @@
 /**
 * Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
-* February 2016
+* March 2016
 */
 
 GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
@@ -40,14 +40,14 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
 
 GLWidget::~GLWidget()
 {
-    if(_vDataHelper) delete _vDataHelper;
-    if(_shaderProgram) delete _shaderProgram;
+	if (_vDataHelper)   { delete _vDataHelper; }
+	if (_shaderProgram) { delete _shaderProgram; }
 }
 
 void GLWidget::initializeGL()
 {
-	//std::cout << "Initialize GL\n";
-	SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
+	//std::cout << "Initialize GL\n"; // want something to prit for debugging ?
+	//SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png"); // uncomment me...
 
 	/* OpenGL format */
     QGLFormat glFormat = QGLWidget::format();
@@ -91,8 +91,6 @@ void GLWidget::initializeGL()
 	// a triangle
 	_triangles.push_back(ATriangle(AVector(1, 1), AVector(25, 25), AVector(1, 50)));
 	_vDataHelper->BuildTrianglesVertexData(_triangles, &_triangleVbo, &_triangleVao, QVector3D(1.0, 0.25, 0.25));
-
-
 }
 
 bool GLWidget::event( QEvent * event )
@@ -133,7 +131,6 @@ void GLWidget::paintGL()
 
 	if (_pathsDataSize > 0)
 	{
-		//std::cout << "draw paths\n";
 		_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
 
 		glLineWidth(5.0f);
@@ -175,11 +172,8 @@ void GLWidget::mousePressEvent(int x, int y)
 {
     _isMouseDown = true;
 
-    double dx = x + _scrollOffset.x();
-    dx /= _zoomFactor;
-
-    double dy = y + _scrollOffset.y();
-    dy /= _zoomFactor;
+    double dx = (x + _scrollOffset.x()) / _zoomFactor;
+	double dy = (y + _scrollOffset.y()) / _zoomFactor;
 
 	// add a path
 	_paths.push_back(APath());
@@ -192,19 +186,15 @@ void GLWidget::mousePressEvent(int x, int y)
 	_pathsColors.push_back(QVector3D(rCol, gCol, bCol));
 	// rebuilt VAO and VBO
 	_pathsDataSize = _vDataHelper->BuildPathsVertexData(_paths, &_pathsVbo, &_pathsVao, _pathsColors);
-
-
+	
     this->repaint();
 }
 
 // Mouse is moved
 void GLWidget::mouseMoveEvent(int x, int y)
 {
-    double dx = x + _scrollOffset.x();
-    dx /= _zoomFactor;
-
-    double dy = y + _scrollOffset.y();
-    dy /= _zoomFactor;
+	double dx = (x + _scrollOffset.x()) / _zoomFactor;
+	double dy = (y + _scrollOffset.y()) / _zoomFactor;
 
     // your stuff
 	size_t sz = _paths.size();
@@ -223,11 +213,8 @@ void GLWidget::mouseMoveEvent(int x, int y)
 void GLWidget::mouseReleaseEvent(int x, int y)
 {
     _isMouseDown = false;
-    double dx = x + _scrollOffset.x();
-    dx /= _zoomFactor;
-
-    double dy = y + _scrollOffset.y();
-    dy /= _zoomFactor;
+	double dx = (x + _scrollOffset.x()) / _zoomFactor;
+	double dy = (y + _scrollOffset.y()) / _zoomFactor;
 
 	// your stuff
 	size_t sz = _paths.size();
@@ -346,8 +333,7 @@ void GLWidget::SetImage(QString img)
 	this->_img_height = _imgOriginal.height();
 	
 	for (int x = 0; x < this->_img_width; x++)
-	{
-		
+	{		
 		for (int y = 0; y < this->_img_height; y++) 
 		{
 			QColor col = QColor(rand() % 255, rand() % 255, rand() % 255, 255);
@@ -372,10 +358,11 @@ void GLWidget::SetImage(QString img)
 
 	glGenTextures(1, &_imgID);
 	glBindTexture(GL_TEXTURE_2D, _imgID);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	// what are these? http://gamedev.stackexchange.com/questions/62548/what-does-changing-gl-texture-wrap-s-t-do
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _imgGL.width(), _imgGL.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _imgGL.bits());
 
 	glDisable(GL_TEXTURE_2D);  // should I have this ?

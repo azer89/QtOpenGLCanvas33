@@ -12,10 +12,12 @@
 struct ABox
 {
 public:
-	AVector _ptA;
-	AVector _ptB;
-	AVector _ptC;
-	AVector _ptD;
+	/* I know these are not the most compact representation
+	but whatever... */
+	AVector _ptA; // topleft
+	AVector _ptB; // topright
+	AVector _ptC; // downleft
+	AVector _ptD; // downright
 
 	// Constructor #1
 	ABox()

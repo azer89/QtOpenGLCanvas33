@@ -13,7 +13,6 @@ class GLWidget;
 * radhitya@uwaterloo.ca
 * February 2016
 */
-
 class GLContainer : public QAbstractScrollArea
 {
     Q_OBJECT
@@ -31,8 +30,7 @@ public:
 
     // set up scrolls (vertical and horizontal)
     void SetScrolls();
-
-
+	
 protected:
     // global event
     bool event( QEvent * event );
@@ -85,6 +83,7 @@ private:
     void UpdateViewport(bool putInMiddle = false);
 
 signals:
+	// nothing, eh?
 
 private slots:
     // vertical scroll

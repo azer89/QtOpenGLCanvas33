@@ -21,7 +21,7 @@ struct AVector;
 struct ALine;
 struct ATriangle;
 struct ABox;
-//struct APath; // cannot forward declaration ?
+//struct APath; // cannot forward declaration because of std::vector<>
 struct VertexData;
 class VertexDataHelper;
 
@@ -62,7 +62,6 @@ private:
 
     // points
 	APath					 _path;
-    //std::vector<AVector>   _points;
     QOpenGLBuffer            _pointsVbo;
     QOpenGLVertexArrayObject _pointsVao;
 
@@ -76,8 +75,7 @@ private:
 	std::vector<APath>		 _paths;
 	QOpenGLBuffer            _pathsVbo;
 	QOpenGLVertexArrayObject _pathsVao;
-
-
+	
     // for rendering
     int        _mvpMatrixLocation;
     int        _colorLocation;

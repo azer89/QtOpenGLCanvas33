@@ -15,7 +15,6 @@ public:
 	AVector _ptA;
 	AVector _ptB;
 	AVector _ptC;
-	//AVector _ptD;
 
 	// Constructor #1
 	ATriangle()
